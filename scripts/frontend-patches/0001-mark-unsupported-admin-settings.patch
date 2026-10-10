@@ -1,0 +1,567 @@
+Mark admin settings that have no effect on misskey-cf as unsupported (未対応).
+
+These meta settings are accepted by admin/update-meta (and returned by admin/meta)
+for upstream compatibility, but nothing on the Cloudflare stack reads them. The
+admin UI keeps showing them, marked 未対応 (Japanese only) with the reason, and
+no longer lets them be changed:
+
+- Object storage (S3): drive files are always stored in R2. The page shows only
+  the notice, and its menu entry is labelled 未対応.
+- SMTP server: mail goes through Cloudflare Email Service; the SMTP fields are
+  replaced by the notice ("enable email" and the sender address remain).
+- Sensitive media detection: not implemented; the folder shows only the notice.
+- Server machine stats: there is no machine to report; server-info is fixed.
+- Charts for remote users / federated instances: charts are computed from the
+  source tables on request, nothing is recorded.
+- FTT per-timeline cache limits: timelines are read from PostgreSQL, there is no
+  cache to cap (the FTT switch and its DB fallback still apply).
+- Reactions buffering (RBT): reactions are always written immediately.
+
+diff --git a/packages/frontend/src/pages/admin/email-settings.vue b/packages/frontend/src/pages/admin/email-settings.vue
+index 6cc667f..3d1d409 100644
+--- a/packages/frontend/src/pages/admin/email-settings.vue
++++ b/packages/frontend/src/pages/admin/email-settings.vue
+@@ -26,42 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 						<FormSection>
+ 							<template #label><SearchLabel>{{ i18n.ts.smtpConfig }}</SearchLabel></template>
+ 
+-							<div class="_gaps_m">
+-								<FormSplit :minWidth="280">
+-									<SearchMarker>
+-										<MkInput v-model="smtpHost">
+-											<template #label><SearchLabel>{{ i18n.ts.smtpHost }}</SearchLabel></template>
+-										</MkInput>
+-									</SearchMarker>
+-									<SearchMarker>
+-										<MkInput v-model="smtpPort" type="number">
+-											<template #label><SearchLabel>{{ i18n.ts.smtpPort }}</SearchLabel></template>
+-										</MkInput>
+-									</SearchMarker>
+-								</FormSplit>
+-
+-								<FormSplit :minWidth="280">
+-									<SearchMarker>
+-										<MkInput v-model="smtpUser">
+-											<template #label><SearchLabel>{{ i18n.ts.smtpUser }}</SearchLabel></template>
+-										</MkInput>
+-									</SearchMarker>
+-									<SearchMarker>
+-										<MkInput v-model="smtpPass" type="password" autocomplete="new-password">
+-											<template #label><SearchLabel>{{ i18n.ts.smtpPass }}</SearchLabel></template>
+-										</MkInput>
+-									</SearchMarker>
+-								</FormSplit>
+-
+-								<FormInfo>{{ i18n.ts.emptyToDisableSmtpAuth }}</FormInfo>
+-
+-								<SearchMarker>
+-									<MkSwitch v-model="smtpSecure">
+-										<template #label><SearchLabel>{{ i18n.ts.smtpSecure }}</SearchLabel></template>
+-										<template #caption><SearchText>{{ i18n.ts.smtpSecureInfo }}</SearchText></template>
+-									</MkSwitch>
+-								</SearchMarker>
+-							</div>
++							<MkInfo warn>未対応: misskey-cf では SMTP サーバーの設定は使われません。メールは Cloudflare Email Service で送信します。</MkInfo>
+ 						</FormSection>
+ 					</SearchMarker>
+ 				</template>
+@@ -85,8 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-only
+ import { ref, computed } from 'vue';
+ import MkSwitch from '@/components/MkSwitch.vue';
+ import MkInput from '@/components/MkInput.vue';
+-import FormInfo from '@/components/MkInfo.vue';
+-import FormSplit from '@/components/form/split.vue';
++import MkInfo from '@/components/MkInfo.vue';
+ import FormSection from '@/components/form/section.vue';
+ import * as os from '@/os.js';
+ import { misskeyApi } from '@/utility/misskey-api.js';
+@@ -99,11 +63,6 @@ const meta = await misskeyApi('admin/meta');
+ 
+ const enableEmail = ref(meta.enableEmail);
+ const email = ref(meta.email);
+-const smtpSecure = ref(meta.smtpSecure);
+-const smtpHost = ref(meta.smtpHost);
+-const smtpPort = ref(meta.smtpPort);
+-const smtpUser = ref(meta.smtpUser);
+-const smtpPass = ref(meta.smtpPass);
+ 
+ async function testEmail() {
+ 	const { canceled, result: destination } = await os.inputText({
+@@ -125,11 +84,6 @@ function save() {
+ 	os.apiWithDialog('admin/update-meta', {
+ 		enableEmail: enableEmail.value,
+ 		email: email.value,
+-		smtpSecure: smtpSecure.value,
+-		smtpHost: smtpHost.value,
+-		smtpPort: smtpPort.value,
+-		smtpUser: smtpUser.value,
+-		smtpPass: smtpPass.value,
+ 	}).then(() => {
+ 		fetchInstance(true);
+ 	});
+diff --git a/packages/frontend/src/pages/admin/index.vue b/packages/frontend/src/pages/admin/index.vue
+index b3a929f..4f87896 100644
+--- a/packages/frontend/src/pages/admin/index.vue
++++ b/packages/frontend/src/pages/admin/index.vue
+@@ -201,7 +201,7 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
+ 		active: currentPage.value?.route.name === 'email-settings',
+ 	}, {
+ 		icon: 'ti ti-cloud',
+-		text: i18n.ts.objectStorage,
++		text: i18n.ts.objectStorage + '（未対応）',
+ 		to: '/admin/object-storage',
+ 		active: currentPage.value?.route.name === 'object-storage',
+ 	}, {
+diff --git a/packages/frontend/src/pages/admin/object-storage.vue b/packages/frontend/src/pages/admin/object-storage.vue
+index f1b6282..6e1cfc1 100644
+--- a/packages/frontend/src/pages/admin/object-storage.vue
++++ b/packages/frontend/src/pages/admin/object-storage.vue
+@@ -8,150 +8,18 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 	<div class="_spacer" style="--MI_SPACER-w: 700px; --MI_SPACER-min: 16px; --MI_SPACER-max: 32px;">
+ 		<SearchMarker path="/admin/object-storage" :label="i18n.ts.objectStorage" :keywords="['objectStorage']" icon="ti ti-cloud">
+ 			<div class="_gaps_m">
+-				<SearchMarker>
+-					<MkSwitch v-model="useObjectStorage"><SearchLabel>{{ i18n.ts.useObjectStorage }}</SearchLabel></MkSwitch>
+-				</SearchMarker>
+-
+-				<template v-if="useObjectStorage">
+-					<SearchMarker>
+-						<MkInput v-model="objectStorageBaseUrl" :placeholder="'https://example.com'" type="url">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageBaseUrl }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageBaseUrlDesc }}</SearchText></template>
+-						</MkInput>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkInput v-model="objectStorageBucket">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageBucket }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageBucketDesc }}</SearchText></template>
+-						</MkInput>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkInput v-model="objectStoragePrefix">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStoragePrefix }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStoragePrefixDesc }}</SearchText></template>
+-						</MkInput>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkInput v-model="objectStorageEndpoint" :placeholder="'example.com'">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageEndpoint }}</SearchLabel></template>
+-							<template #prefix>https://</template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageEndpointDesc }}</SearchText></template>
+-						</MkInput>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkInput v-model="objectStorageRegion">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageRegion }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageRegionDesc }}</SearchText></template>
+-						</MkInput>
+-					</SearchMarker>
+-
+-					<FormSplit :minWidth="280">
+-						<SearchMarker>
+-							<MkInput v-model="objectStorageAccessKey">
+-								<template #prefix><i class="ti ti-key"></i></template>
+-								<template #label><SearchLabel>Access key</SearchLabel></template>
+-							</MkInput>
+-						</SearchMarker>
+-
+-						<SearchMarker>
+-							<MkInput v-model="objectStorageSecretKey" type="password" autocomplete="new-password">
+-								<template #prefix><i class="ti ti-key"></i></template>
+-								<template #label><SearchLabel>Secret key</SearchLabel></template>
+-							</MkInput>
+-						</SearchMarker>
+-					</FormSplit>
+-
+-					<SearchMarker>
+-						<MkSwitch v-model="objectStorageUseSSL">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageUseSSL }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageUseSSLDesc }}</SearchText></template>
+-						</MkSwitch>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkSwitch v-model="objectStorageUseProxy">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageUseProxy }}</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.objectStorageUseProxyDesc }}</SearchText></template>
+-						</MkSwitch>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkSwitch v-model="objectStorageSetPublicRead">
+-							<template #label><SearchLabel>{{ i18n.ts.objectStorageSetPublicRead }}</SearchLabel></template>
+-						</MkSwitch>
+-					</SearchMarker>
+-
+-					<SearchMarker>
+-						<MkSwitch v-model="objectStorageS3ForcePathStyle">
+-							<template #label><SearchLabel>s3ForcePathStyle</SearchLabel></template>
+-							<template #caption><SearchText>{{ i18n.ts.s3ForcePathStyleDesc }}</SearchText></template>
+-						</MkSwitch>
+-					</SearchMarker>
+-				</template>
++				<MkInfo warn>未対応: misskey-cf ではオブジェクトストレージ（S3 互換）の設定は使われません。ドライブのファイルは常に Cloudflare R2 に保存されます。</MkInfo>
+ 			</div>
+ 		</SearchMarker>
+ 	</div>
+-	<template #footer>
+-		<div :class="$style.footer">
+-			<div class="_spacer" style="--MI_SPACER-w: 700px; --MI_SPACER-min: 16px; --MI_SPACER-max: 16px;">
+-				<MkButton primary rounded @click="save"><i class="ti ti-check"></i> {{ i18n.ts.save }}</MkButton>
+-			</div>
+-		</div>
+-	</template>
+ </PageWithHeader>
+ </template>
+ 
+ <script lang="ts" setup>
+-import { ref, computed } from 'vue';
+-import MkSwitch from '@/components/MkSwitch.vue';
+-import MkInput from '@/components/MkInput.vue';
+-import FormSplit from '@/components/form/split.vue';
+-import * as os from '@/os.js';
+-import { misskeyApi } from '@/utility/misskey-api.js';
+-import { fetchInstance } from '@/instance.js';
++import { computed } from 'vue';
++import MkInfo from '@/components/MkInfo.vue';
+ import { i18n } from '@/i18n.js';
+ import { definePage } from '@/page.js';
+-import MkButton from '@/components/MkButton.vue';
+-
+-const meta = await misskeyApi('admin/meta');
+-
+-const useObjectStorage = ref(meta.useObjectStorage);
+-const objectStorageBaseUrl = ref(meta.objectStorageBaseUrl);
+-const objectStorageBucket = ref(meta.objectStorageBucket);
+-const objectStoragePrefix = ref(meta.objectStoragePrefix);
+-const objectStorageEndpoint = ref(meta.objectStorageEndpoint);
+-const objectStorageRegion = ref(meta.objectStorageRegion);
+-const objectStoragePort = ref(meta.objectStoragePort);
+-const objectStorageAccessKey = ref(meta.objectStorageAccessKey);
+-const objectStorageSecretKey = ref(meta.objectStorageSecretKey);
+-const objectStorageUseSSL = ref(meta.objectStorageUseSSL);
+-const objectStorageUseProxy = ref(meta.objectStorageUseProxy);
+-const objectStorageSetPublicRead = ref(meta.objectStorageSetPublicRead);
+-const objectStorageS3ForcePathStyle = ref(meta.objectStorageS3ForcePathStyle);
+-
+-function save() {
+-	os.apiWithDialog('admin/update-meta', {
+-		useObjectStorage: useObjectStorage.value,
+-		objectStorageBaseUrl: objectStorageBaseUrl.value,
+-		objectStorageBucket: objectStorageBucket.value,
+-		objectStoragePrefix: objectStoragePrefix.value,
+-		objectStorageEndpoint: objectStorageEndpoint.value,
+-		objectStorageRegion: objectStorageRegion.value,
+-		objectStoragePort: objectStoragePort.value,
+-		objectStorageAccessKey: objectStorageAccessKey.value,
+-		objectStorageSecretKey: objectStorageSecretKey.value,
+-		objectStorageUseSSL: objectStorageUseSSL.value,
+-		objectStorageUseProxy: objectStorageUseProxy.value,
+-		objectStorageSetPublicRead: objectStorageSetPublicRead.value,
+-		objectStorageS3ForcePathStyle: objectStorageS3ForcePathStyle.value,
+-	}).then(() => {
+-		fetchInstance(true);
+-	});
+-}
+ 
+ const headerTabs = computed(() => []);
+ 
+@@ -160,10 +28,3 @@ definePage(() => ({
+ 	icon: 'ti ti-cloud',
+ }));
+ </script>
+-
+-<style lang="scss" module>
+-.footer {
+-	-webkit-backdrop-filter: var(--MI-blur, blur(15px));
+-	backdrop-filter: var(--MI-blur, blur(15px));
+-}
+-</style>
+diff --git a/packages/frontend/src/pages/admin/performance.vue b/packages/frontend/src/pages/admin/performance.vue
+index 3ce8e05..45dbeeb 100644
+--- a/packages/frontend/src/pages/admin/performance.vue
++++ b/packages/frontend/src/pages/admin/performance.vue
+@@ -10,9 +10,9 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 			<div class="_gaps">
+ 				<SearchMarker>
+ 					<div class="_panel" style="padding: 16px;">
+-						<MkSwitch v-model="enableServerMachineStats" @change="onChange_enableServerMachineStats">
++						<MkSwitch v-model="enableServerMachineStats" disabled>
+ 							<template #label><SearchLabel>{{ i18n.ts.enableServerMachineStats }}</SearchLabel></template>
+-							<template #caption>{{ i18n.ts.turnOffToImprovePerformance }}</template>
++							<template #caption>未対応: misskey-cf では使われません（Worker にはマシン情報がありません）</template>
+ 						</MkSwitch>
+ 					</div>
+ 				</SearchMarker>
+@@ -28,9 +28,9 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 
+ 				<SearchMarker>
+ 					<div class="_panel" style="padding: 16px;">
+-						<MkSwitch v-model="enableChartsForRemoteUser" @change="onChange_enableChartsForRemoteUser">
++						<MkSwitch v-model="enableChartsForRemoteUser" disabled>
+ 							<template #label><SearchLabel>{{ i18n.ts.enableChartsForRemoteUser }}</SearchLabel></template>
+-							<template #caption>{{ i18n.ts.turnOffToImprovePerformance }}</template>
++							<template #caption>未対応: misskey-cf では使われません（チャートは元のデータからその都度集計します）</template>
+ 						</MkSwitch>
+ 					</div>
+ 				</SearchMarker>
+@@ -46,9 +46,9 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 
+ 				<SearchMarker>
+ 					<div class="_panel" style="padding: 16px;">
+-						<MkSwitch v-model="enableChartsForFederatedInstances" @change="onChange_enableChartsForFederatedInstances">
++						<MkSwitch v-model="enableChartsForFederatedInstances" disabled>
+ 							<template #label><SearchLabel>{{ i18n.ts.enableChartsForFederatedInstances }}</SearchLabel></template>
+-							<template #caption>{{ i18n.ts.turnOffToImprovePerformance }}</template>
++							<template #caption>未対応: misskey-cf では使われません（チャートは元のデータからその都度集計します）</template>
+ 						</MkSwitch>
+ 					</div>
+ 				</SearchMarker>
+@@ -92,26 +92,30 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 								</SearchMarker>
+ 
+ 								<SearchMarker>
+-									<MkInput v-model="fttForm.state.perLocalUserUserTimelineCacheMax" type="number">
++									<MkInput v-model="fttForm.state.perLocalUserUserTimelineCacheMax" type="number" disabled>
+ 										<template #label><SearchLabel>perLocalUserUserTimelineCacheMax</SearchLabel><span v-if="fttForm.modifiedStates.perLocalUserUserTimelineCacheMax" class="_modified">{{ i18n.ts.modified }}</span></template>
++										<template #caption>未対応: misskey-cf ではタイムラインを PostgreSQL から読むため、保持件数の上限はありません</template>
+ 									</MkInput>
+ 								</SearchMarker>
+ 
+ 								<SearchMarker>
+-									<MkInput v-model="fttForm.state.perRemoteUserUserTimelineCacheMax" type="number">
++									<MkInput v-model="fttForm.state.perRemoteUserUserTimelineCacheMax" type="number" disabled>
+ 										<template #label><SearchLabel>perRemoteUserUserTimelineCacheMax</SearchLabel><span v-if="fttForm.modifiedStates.perRemoteUserUserTimelineCacheMax" class="_modified">{{ i18n.ts.modified }}</span></template>
++										<template #caption>未対応: misskey-cf ではタイムラインを PostgreSQL から読むため、保持件数の上限はありません</template>
+ 									</MkInput>
+ 								</SearchMarker>
+ 
+ 								<SearchMarker>
+-									<MkInput v-model="fttForm.state.perUserHomeTimelineCacheMax" type="number">
++									<MkInput v-model="fttForm.state.perUserHomeTimelineCacheMax" type="number" disabled>
+ 										<template #label><SearchLabel>perUserHomeTimelineCacheMax</SearchLabel><span v-if="fttForm.modifiedStates.perUserHomeTimelineCacheMax" class="_modified">{{ i18n.ts.modified }}</span></template>
++										<template #caption>未対応: misskey-cf ではタイムラインを PostgreSQL から読むため、保持件数の上限はありません</template>
+ 									</MkInput>
+ 								</SearchMarker>
+ 
+ 								<SearchMarker>
+-									<MkInput v-model="fttForm.state.perUserListTimelineCacheMax" type="number">
++									<MkInput v-model="fttForm.state.perUserListTimelineCacheMax" type="number" disabled>
+ 										<template #label><SearchLabel>perUserListTimelineCacheMax</SearchLabel><span v-if="fttForm.modifiedStates.perUserListTimelineCacheMax" class="_modified">{{ i18n.ts.modified }}</span></template>
++										<template #caption>未対応: misskey-cf ではタイムラインを PostgreSQL から読むため、保持件数の上限はありません</template>
+ 									</MkInput>
+ 								</SearchMarker>
+ 							</template>
+@@ -123,17 +127,16 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 					<MkFolder :defaultOpen="true">
+ 						<template #icon><SearchIcon><i class="ti ti-bolt"></i></SearchIcon></template>
+ 						<template #label><SearchLabel>Misskey® Reactions Boost Technology™ (RBT)</SearchLabel></template>
+-						<template v-if="rbtForm.savedState.enableReactionsBuffering" #suffix>Enabled</template>
+-						<template v-else #suffix>Disabled</template>
++						<template #suffix>未対応</template>
+ 						<template v-if="rbtForm.modified.value" #footer>
+ 							<MkFormFooter :form="rbtForm"/>
+ 						</template>
+ 
+ 						<div class="_gaps_m">
+ 							<SearchMarker>
+-								<MkSwitch v-model="rbtForm.state.enableReactionsBuffering">
++								<MkSwitch v-model="rbtForm.state.enableReactionsBuffering" disabled>
+ 									<template #label><SearchLabel>{{ i18n.ts.enable }}</SearchLabel><span v-if="rbtForm.modifiedStates.enableReactionsBuffering" class="_modified">{{ i18n.ts.modified }}</span></template>
+-									<template #caption><SearchText>{{ i18n.ts._serverSettings.reactionsBufferingDescription }}</SearchText></template>
++									<template #caption>未対応: misskey-cf ではリアクションは常に即時に反映されます</template>
+ 								</MkSwitch>
+ 							</SearchMarker>
+ 						</div>
+@@ -199,14 +202,6 @@ const enableStatsForFederatedInstances = ref(meta.enableStatsForFederatedInstanc
+ const enableChartsForFederatedInstances = ref(meta.enableChartsForFederatedInstances);
+ const showRoleBadgesOfRemoteUsers = ref(meta.showRoleBadgesOfRemoteUsers);
+ 
+-function onChange_enableServerMachineStats(value: boolean) {
+-	os.apiWithDialog('admin/update-meta', {
+-		enableServerMachineStats: value,
+-	}).then(() => {
+-		fetchInstance(true);
+-	});
+-}
+-
+ function onChange_enableIdenticonGeneration(value: boolean) {
+ 	os.apiWithDialog('admin/update-meta', {
+ 		enableIdenticonGeneration: value,
+@@ -215,14 +210,6 @@ function onChange_enableIdenticonGeneration(value: boolean) {
+ 	});
+ }
+ 
+-function onChange_enableChartsForRemoteUser(value: boolean) {
+-	os.apiWithDialog('admin/update-meta', {
+-		enableChartsForRemoteUser: value,
+-	}).then(() => {
+-		fetchInstance(true);
+-	});
+-}
+-
+ function onChange_enableStatsForFederatedInstances(value: boolean) {
+ 	os.apiWithDialog('admin/update-meta', {
+ 		enableStatsForFederatedInstances: value,
+@@ -231,14 +218,6 @@ function onChange_enableStatsForFederatedInstances(value: boolean) {
+ 	});
+ }
+ 
+-function onChange_enableChartsForFederatedInstances(value: boolean) {
+-	os.apiWithDialog('admin/update-meta', {
+-		enableChartsForFederatedInstances: value,
+-	}).then(() => {
+-		fetchInstance(true);
+-	});
+-}
+-
+ function onChange_showRoleBadgesOfRemoteUsers(value: boolean) {
+ 	os.apiWithDialog('admin/update-meta', {
+ 		showRoleBadgesOfRemoteUsers: value,
+diff --git a/packages/frontend/src/pages/admin/security.vue b/packages/frontend/src/pages/admin/security.vue
+index 91a8eb6..086b59c 100644
+--- a/packages/frontend/src/pages/admin/security.vue
++++ b/packages/frontend/src/pages/admin/security.vue
+@@ -14,86 +14,9 @@ SPDX-License-Identifier: AGPL-3.0-only
+ 					<MkFolder :defaultOpen="slotProps.isParentOfTarget">
+ 						<template #icon><SearchIcon><i class="ti ti-eye-off"></i></SearchIcon></template>
+ 						<template #label><SearchLabel>{{ i18n.ts.sensitiveMediaDetection }}</SearchLabel></template>
+-						<template v-if="sensitiveMediaDetectionForm.savedState.sensitiveMediaDetection === 'all'" #suffix>{{ i18n.ts.all }}</template>
+-						<template v-else-if="sensitiveMediaDetectionForm.savedState.sensitiveMediaDetection === 'local'" #suffix>{{ i18n.ts.localOnly }}</template>
+-						<template v-else-if="sensitiveMediaDetectionForm.savedState.sensitiveMediaDetection === 'remote'" #suffix>{{ i18n.ts.remoteOnly }}</template>
+-						<template v-else #suffix>{{ i18n.ts.none }}</template>
+-						<template v-if="sensitiveMediaDetectionForm.modified.value" #footer>
+-							<MkFormFooter :form="sensitiveMediaDetectionForm"/>
+-						</template>
+-
+-						<div class="_gaps_m">
+-							<div><SearchText>{{ i18n.ts._sensitiveMediaDetection.description }}</SearchText></div>
+-
+-							<MkInfo warn><SearchText>{{ i18n.ts._sensitiveMediaDetection.externalServiceInfo }}</SearchText></MkInfo>
+-
+-							<MkRadios
+-								v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetection"
+-								:options="[
+-									{ value: 'none', label: i18n.ts.none },
+-									{ value: 'all', label: i18n.ts.all },
+-									{ value: 'local', label: i18n.ts.localOnly },
+-									{ value: 'remote', label: i18n.ts.remoteOnly },
+-								]"
+-							>
+-							</MkRadios>
++						<template #suffix>未対応</template>
+ 
+-							<SearchMarker :keywords="['api', 'url', 'endpoint', 'sensitive']">
+-								<MkInput v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetectionApiUrl" type="url">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.apiUrl }}</SearchLabel></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.apiUrlDescription }}</SearchText></template>
+-								</MkInput>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['api', 'key', 'token', 'sensitive']">
+-								<MkInput v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetectionApiKey" type="password" autocomplete="new-password">
+-									<template #prefix><i class="ti ti-key"></i></template>
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.apiKey }}</SearchLabel></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.apiKeyDescription }}</SearchText></template>
+-								</MkInput>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['timeout', 'sensitive']">
+-								<MkInput v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetectionTimeout" type="number" :min="1">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.timeout }}</SearchLabel></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.timeoutDescription }}</SearchText></template>
+-								</MkInput>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['max', 'images', 'chunk', 'sensitive']">
+-								<MkInput v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetectionMaxImagesPerRequest" type="number" :min="1">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.maxImagesPerRequest }}</SearchLabel></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.maxImagesPerRequestDescription }}</SearchText></template>
+-								</MkInput>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['sensitivity']">
+-								<MkRange v-model="sensitiveMediaDetectionForm.state.sensitiveMediaDetectionSensitivity" :min="0" :max="4" :step="1" :textConverter="(v) => `${v + 1}`">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.sensitivity }}</SearchLabel></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.sensitivityDescription }}</SearchText></template>
+-								</MkRange>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['video', 'analyze']">
+-								<MkSwitch v-model="sensitiveMediaDetectionForm.state.enableSensitiveMediaDetectionForVideos">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.analyzeVideos }}</SearchLabel><span class="_beta">{{ i18n.ts.beta }}</span></template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.analyzeVideosDescription }}</SearchText></template>
+-								</MkSwitch>
+-							</SearchMarker>
+-
+-							<SearchMarker :keywords="['flag', 'automatically']">
+-								<MkSwitch v-model="sensitiveMediaDetectionForm.state.setSensitiveFlagAutomatically">
+-									<template #label><SearchLabel>{{ i18n.ts._sensitiveMediaDetection.setSensitiveFlagAutomatically }}</SearchLabel> ({{ i18n.ts.notRecommended }})</template>
+-									<template #caption><SearchText>{{ i18n.ts._sensitiveMediaDetection.setSensitiveFlagAutomaticallyDescription }}</SearchText></template>
+-								</MkSwitch>
+-							</SearchMarker>
+-
+-							<!-- 現状 false positive が多すぎて実用に耐えない
+-					<MkSwitch v-model="disallowUploadWhenPredictedAsPorn">
+-						<template #label>{{ i18n.ts._sensitiveMediaDetection.disallowUploadWhenPredictedAsPorn }}</template>
+-					</MkSwitch>
+-					-->
+-						</div>
++						<MkInfo warn>未対応: misskey-cf ではセンシティブなメディアの自動検出は使えません。</MkInfo>
+ 					</MkFolder>
+ 				</SearchMarker>
+ 
+@@ -196,9 +119,7 @@ SPDX-License-Identifier: AGPL-3.0-only
+ import { ref, computed } from 'vue';
+ import XBotProtection from './bot-protection.vue';
+ import MkFolder from '@/components/MkFolder.vue';
+-import MkRadios from '@/components/MkRadios.vue';
+ import MkSwitch from '@/components/MkSwitch.vue';
+-import MkRange from '@/components/MkRange.vue';
+ import MkInput from '@/components/MkInput.vue';
+ import MkTextarea from '@/components/MkTextarea.vue';
+ import MkInfo from '@/components/MkInfo.vue';
+@@ -212,39 +133,6 @@ import MkFormFooter from '@/components/MkFormFooter.vue';
+ 
+ const meta = await misskeyApi('admin/meta');
+ 
+-const sensitiveMediaDetectionForm = useForm({
+-	sensitiveMediaDetection: meta.sensitiveMediaDetection,
+-	sensitiveMediaDetectionSensitivity: meta.sensitiveMediaDetectionSensitivity === 'veryLow' ? 0 :
+-	meta.sensitiveMediaDetectionSensitivity === 'low' ? 1 :
+-	meta.sensitiveMediaDetectionSensitivity === 'medium' ? 2 :
+-	meta.sensitiveMediaDetectionSensitivity === 'high' ? 3 :
+-	meta.sensitiveMediaDetectionSensitivity === 'veryHigh' ? 4 : 0,
+-	setSensitiveFlagAutomatically: meta.setSensitiveFlagAutomatically,
+-	enableSensitiveMediaDetectionForVideos: meta.enableSensitiveMediaDetectionForVideos,
+-	sensitiveMediaDetectionApiUrl: meta.sensitiveMediaDetectionApiUrl,
+-	sensitiveMediaDetectionApiKey: meta.sensitiveMediaDetectionApiKey,
+-	sensitiveMediaDetectionTimeout: meta.sensitiveMediaDetectionTimeout,
+-	sensitiveMediaDetectionMaxImagesPerRequest: meta.sensitiveMediaDetectionMaxImagesPerRequest,
+-}, async (state) => {
+-	await os.apiWithDialog('admin/update-meta', {
+-		sensitiveMediaDetection: state.sensitiveMediaDetection,
+-		sensitiveMediaDetectionSensitivity:
+-			state.sensitiveMediaDetectionSensitivity === 0 ? 'veryLow' :
+-			state.sensitiveMediaDetectionSensitivity === 1 ? 'low' :
+-			state.sensitiveMediaDetectionSensitivity === 2 ? 'medium' :
+-			state.sensitiveMediaDetectionSensitivity === 3 ? 'high' :
+-			state.sensitiveMediaDetectionSensitivity === 4 ? 'veryHigh' :
+-			null as never,
+-		setSensitiveFlagAutomatically: state.setSensitiveFlagAutomatically,
+-		enableSensitiveMediaDetectionForVideos: state.enableSensitiveMediaDetectionForVideos,
+-		sensitiveMediaDetectionApiUrl: state.sensitiveMediaDetectionApiUrl,
+-		sensitiveMediaDetectionApiKey: state.sensitiveMediaDetectionApiKey,
+-		sensitiveMediaDetectionTimeout: state.sensitiveMediaDetectionTimeout,
+-		sensitiveMediaDetectionMaxImagesPerRequest: state.sensitiveMediaDetectionMaxImagesPerRequest,
+-	});
+-	fetchInstance(true);
+-});
+-
+ const ipLoggingForm = useForm({
+ 	enableIpLogging: meta.enableIpLogging,
+ }, async (state) => {

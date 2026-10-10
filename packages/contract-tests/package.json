@@ -1,0 +1,26 @@
+{
+  "name": "@misskey-cf/contract-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "misskey-js / live-diff contract tests",
+  "license": "AGPL-3.0-only",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test src/contract.test.ts"
+  },
+  "dependencies": {
+    "@misskey-cf/packers": "workspace:*",
+    "@misskey-cf/misskey-js-types": "workspace:*",
+    "@misskey-cf/id": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2"
+  }
+}
