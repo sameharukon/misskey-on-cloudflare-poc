@@ -1,0 +1,36 @@
+{
+  "name": "misskey-cf",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Misskey-compatible ActivityPub server on Cloudflare Workers (AGPL-3.0)",
+  "license": "AGPL-3.0-only",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "sync-upstream": "bash scripts/sync-upstream.sh",
+    "db:migrate": "tsx packages/db/scripts/migrate.ts",
+    "gen-migrations": "node scripts/gen-migrations.mjs",
+    "db:gen-types": "tsx packages/db/scripts/gen-types.ts",
+    "build-frontend": "bash scripts/build-frontend.sh",
+    "frontend:upload": "bash scripts/frontend-artifact.sh upload",
+    "frontend:download": "bash scripts/frontend-artifact.sh download",
+    "deploy:all": "bash scripts/deploy-all.sh",
+    "check-endpoints": "node scripts/check-endpoint-coverage.mjs",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "tsx --import ./scripts/test-hooks.mjs --test \"packages/*/src/**/*.test.ts\"",
+    "typecheck:packers": "tsc --noEmit -p packages/packers/tsconfig.json",
+    "typecheck:contract": "tsc --noEmit -p packages/contract-tests/tsconfig.json",
+    "typecheck:misskey-js-types": "tsc --noEmit -p packages/misskey-js-types/tsconfig.json",
+    "typecheck:gateway": "tsc --noEmit -p packages/gateway/tsconfig.json",
+    "typecheck:api": "tsc --noEmit -p packages/api/tsconfig.json",
+    "gen-api-compat": "node scripts/gen-api-compat.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "wrangler": "4.149.0"
+  }
+}

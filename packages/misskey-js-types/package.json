@@ -1,0 +1,19 @@
+{
+  "name": "@misskey-cf/misskey-js-types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Re-export misskey-js autogen types from upstream submodule (no build)",
+  "license": "AGPL-3.0-only",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.0"
+  }
+}

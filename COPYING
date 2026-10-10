@@ -1,0 +1,15 @@
+Unless otherwise stated this repository is
+Copyright © 2014-2026 syuilo and contributors (Misskey)
+Copyright © 2026 misskey-cf contributors
+
+And is distributed under The GNU Affero General Public License Version 3, you should have received a copy of the license file as LICENSE.
+
+misskey-cf is a rewrite of the Misskey backend (https://github.com/misskey-dev/misskey) for Cloudflare. Much of its code is ported from Misskey, and the web client it serves is Misskey's own, built from the pinned upstream/misskey submodule.
+
+RsaSignature2017 implementation by Transmute Industries Inc
+License: MIT
+https://github.com/transmute-industries/RsaSignature2017/blob/master/LICENSE
+
+Disposable email domain list (packages/api/src/disposable-domains.txt) from disposable-email-domains
+License: MIT
+https://github.com/ivolo/disposable-email-domains

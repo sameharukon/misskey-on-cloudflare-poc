@@ -1,0 +1,3 @@
+[submodule "upstream/misskey"]
+	path = upstream/misskey
+	url = https://github.com/misskey-dev/misskey.git

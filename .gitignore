@@ -1,0 +1,15 @@
+node_modules/
+package-lock.json
+.wrangler/
+.dev.vars
+dist/
+*.log
+.DS_Store
+.frontend-build/
+packages/gateway/public/*
+!packages/gateway/public/.gitkeep
+!packages/gateway/public/.assetsignore
+.fed-local/
+packages/*/wrangler.fed-*.toml
+scripts/fed-local/wrangler.fed-*.toml
+packages/*/wrangler.deploy.toml
