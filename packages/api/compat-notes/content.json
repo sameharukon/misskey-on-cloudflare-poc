@@ -1,0 +1,340 @@
+{
+  "antennas/create": {
+    "status": "compatible",
+    "note": "アンテナ CRUD は upstream と同じ",
+    "noteEn": "Antenna CRUD is the same as upstream"
+  },
+  "antennas/delete": {
+    "status": "compatible",
+    "note": "アンテナ CRUD は upstream と同じ",
+    "noteEn": "Antenna CRUD is the same as upstream"
+  },
+  "antennas/list": {
+    "status": "compatible",
+    "note": "アンテナ CRUD は upstream と同じ",
+    "noteEn": "Antenna CRUD is the same as upstream"
+  },
+  "antennas/notes": {
+    "status": "approx",
+    "note": "antennaTimeline は Redis の代わりに TimelineShard DO の ID リスト（アンテナ判定は fanout consumer）。取得順・ミュートチャンネル除外・可視性フィルタは upstream 同様",
+    "noteEn": "antennaTimeline is an ID list in the TimelineShard DO instead of Redis (antenna matching is done by the fanout consumer). Fetch order, muted-channel exclusion, and the visibility filter are the same as upstream",
+    "summary": "Redis の代わりに Durable Object に保存",
+    "summaryEn": "Stored in a Durable Object instead of Redis"
+  },
+  "antennas/remove-note": {
+    "status": "compatible",
+    "note": "TimelineShard DO のアンテナリストから削除",
+    "noteEn": "Removed from the antenna list in the TimelineShard DO"
+  },
+  "antennas/show": {
+    "status": "compatible",
+    "note": "アンテナ CRUD は upstream と同じ",
+    "noteEn": "Antenna CRUD is the same as upstream"
+  },
+  "antennas/update": {
+    "status": "compatible",
+    "note": "アンテナ CRUD は upstream と同じ",
+    "noteEn": "Antenna CRUD is the same as upstream"
+  },
+  "channels/create": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/favorite": {
+    "status": "compatible",
+    "note": "重複お気に入りは upstream 同様ユニーク制約違反（INTERNAL_ERROR）",
+    "noteEn": "A duplicate favorite is a unique-constraint violation (INTERNAL_ERROR), the same as upstream"
+  },
+  "channels/featured": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/follow": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/followed": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/mute/create": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/mute/delete": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/mute/list": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/my-favorites": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/owned": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/search": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/show": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/timeline": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  },
+  "channels/unfavorite": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/unfollow": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "channels/update": {
+    "status": "compatible",
+    "note": "Channel*Service / ChannelEntityService 相当",
+    "noteEn": "Equivalent to Channel*Service / ChannelEntityService"
+  },
+  "clips/add-note": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/create": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/delete": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/favorite": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/list": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/my-favorites": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/notes": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/remove-note": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/show": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/unfavorite": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "clips/update": {
+    "status": "compatible",
+    "note": "ClipService / ClipEntityService 相当",
+    "noteEn": "Equivalent to ClipService / ClipEntityService"
+  },
+  "flash/create": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/delete": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/featured": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/like": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/my": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/my-likes": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/search": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/show": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/unlike": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "flash/update": {
+    "status": "compatible",
+    "note": "FlashEntityService 相当",
+    "noteEn": "Equivalent to FlashEntityService"
+  },
+  "gallery/featured": {
+    "status": "approx",
+    "note": "getGalleryPostsRanking（Redis）を gallery_like 行から同じ 3 日窓で集計して近似。30 分キャッシュは upstream 同様",
+    "noteEn": "Approximates getGalleryPostsRanking (Redis) by aggregating gallery_like rows over the same 3-day window. The 30-minute cache is the same as upstream",
+    "summary": "ランキングを PostgreSQL で集計（近似）",
+    "summaryEn": "Ranking aggregated in PostgreSQL (approximate)"
+  },
+  "gallery/popular": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/create": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/delete": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/like": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/show": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/unlike": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "gallery/posts/update": {
+    "status": "compatible",
+    "note": "GalleryPostEntityService 相当",
+    "noteEn": "Equivalent to GalleryPostEntityService"
+  },
+  "hashtags/list": {
+    "status": "compatible",
+    "note": "HashtagService 相当",
+    "noteEn": "Equivalent to HashtagService"
+  },
+  "hashtags/search": {
+    "status": "compatible",
+    "note": "HashtagService 相当",
+    "noteEn": "Equivalent to HashtagService"
+  },
+  "hashtags/show": {
+    "status": "compatible",
+    "note": "HashtagService 相当",
+    "noteEn": "Equivalent to HashtagService"
+  },
+  "hashtags/trend": {
+    "status": "approx",
+    "note": "getHashtagsRanking / getCharts（Redis HyperLogLog）を note 行から同じ窓で集計して近似",
+    "noteEn": "Approximates getHashtagsRanking / getCharts (Redis HyperLogLog) by aggregating note rows over the same window",
+    "summary": "ランキングを PostgreSQL で集計（近似）",
+    "summaryEn": "Ranking aggregated in PostgreSQL (approximate)"
+  },
+  "hashtags/users": {
+    "status": "compatible",
+    "note": "HashtagService 相当",
+    "noteEn": "Equivalent to HashtagService"
+  },
+  "page-push": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "pages/create": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/delete": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/featured": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/like": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/show": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/unlike": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  },
+  "pages/update": {
+    "status": "compatible",
+    "note": "PageService / PageEntityService 相当",
+    "noteEn": "Equivalent to PageService / PageEntityService"
+  }
+}

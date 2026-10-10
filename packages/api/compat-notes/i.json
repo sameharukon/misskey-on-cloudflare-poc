@@ -1,0 +1,255 @@
+{
+  "i": {
+    "status": "compatible",
+    "note": "loggedInDates 更新、ネイティブトークンでは includeSecrets（MeDetailed）",
+    "noteEn": "Updates loggedInDates; includeSecrets (MeDetailed) for a native token"
+  },
+  "i/apps": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/authorized-apps": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/change-password": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/claim-achievement": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/delete-account": {
+    "status": "deviation",
+    "note": "DeleteAccountService を移植（Delete(Person) 配信・mk-jobs で段階的削除、最後に確認済みアドレスへ「Account deleted」メール — Cloudflare Email Service 経由）",
+    "noteEn": "Port of DeleteAccountService (Delete(Person) delivery, staged deletion on mk-jobs, and an \"Account deleted\" email to the verified address at the end — via Cloudflare Email Service)",
+    "summary": "Cloudflare Email Service で送信",
+    "summaryEn": "Sent through Cloudflare Email Service"
+  },
+  "i/export-antennas": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-blocking": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-clips": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-favorites": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-following": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-mute": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-notes": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/export-user-lists": {
+    "status": "deviation",
+    "note": "Export*ProcessorService のファイル形式・exportCompleted 通知を再現。ジョブは mk-jobs（Cloudflare Queues）で 1 回の実行内にファイルを組み立てるため、極端に大きいアカウントは Worker のメモリ・CPU 上限に依存",
+    "noteEn": "Reproduces the file format and exportCompleted notification of Export*ProcessorService. The job assembles the file within a single mk-jobs (Cloudflare Queues) run, so extremely large accounts depend on the Worker's memory and CPU limits",
+    "summary": "1 回のジョブで生成。極端に大きいアカウントは Worker の上限に依存",
+    "summaryEn": "Built in one job. Extremely large accounts depend on Worker limits"
+  },
+  "i/favorites": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/gallery/likes": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/gallery/posts": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/import-antennas": {
+    "status": "compatible",
+    "note": "JSON 解析エラーは upstream 同様 INTERNAL_ERROR。ジョブは mk-jobs",
+    "noteEn": "A JSON parse error is INTERNAL_ERROR, the same as upstream. The job is mk-jobs"
+  },
+  "i/import-blocking": {
+    "status": "compatible",
+    "note": "Import*ProcessorService を移植（アカウント解決は RemoteUserResolveService 相当、フォロー・ブロックは silent）。ジョブは mk-jobs（Cloudflare Queues）",
+    "noteEn": "Port of Import*ProcessorService (account resolution is equivalent to RemoteUserResolveService; follows and blocks are silent). The job is mk-jobs (Cloudflare Queues)"
+  },
+  "i/import-following": {
+    "status": "compatible",
+    "note": "Import*ProcessorService を移植（key=value は upstream 同様 index 2 から読む、silent フォロー）。アカウント移行直後は 32MiB まで許可。ジョブは mk-jobs",
+    "noteEn": "Port of Import*ProcessorService (key=value is read from index 2, the same as upstream; silent follows). Up to 32MiB is allowed immediately after an account move. The job is mk-jobs"
+  },
+  "i/import-muting": {
+    "status": "compatible",
+    "note": "Import*ProcessorService を移植（アカウント解決は RemoteUserResolveService 相当、フォロー・ブロックは silent）。ジョブは mk-jobs（Cloudflare Queues）",
+    "noteEn": "Port of Import*ProcessorService (account resolution is equivalent to RemoteUserResolveService; follows and blocks are silent). The job is mk-jobs (Cloudflare Queues)"
+  },
+  "i/import-user-lists": {
+    "status": "compatible",
+    "note": "リストは解決前に作成、addMember（proxy フォロー含む）も upstream 同様。ジョブは mk-jobs",
+    "noteEn": "Lists are created before resolution, and addMember (including proxy follows) is also the same as upstream. The job is mk-jobs"
+  },
+  "i/notifications": {
+    "status": "compatible",
+    "note": "通知は Redis Stream の代わりに Durable Object（NotificationBox）に保存。ページング・フィルタ・既読処理・解決済みフォローリクエストの除外は upstream 同様",
+    "noteEn": "Notifications are stored in a Durable Object (NotificationBox) instead of a Redis Stream. Paging, filters, read handling, and exclusion of resolved follow requests are the same as upstream"
+  },
+  "i/notifications-grouped": {
+    "status": "compatible",
+    "note": "通知は Durable Object に保存。グルーピング（reaction / renote、targetNoteId）と packGroupedMany は upstream 同様",
+    "noteEn": "Notifications are stored in a Durable Object. Grouping (reaction / renote, targetNoteId) and packGroupedMany are the same as upstream"
+  },
+  "i/page-likes": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/pages": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/pin": {
+    "status": "compatible",
+    "note": "NotePiningService.addPinned（featured コレクションへの Add をリモートフォロワーと LD 署名付きでリレーへ配信）",
+    "noteEn": "NotePiningService.addPinned (the Add to the featured collection is delivered to remote followers and to relays with an LD signature)"
+  },
+  "i/read-announcement": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/regenerate-token": {
+    "status": "compatible",
+    "note": "main に myTokenRegenerated。接続中のストリームは upstream と同じく切断しない",
+    "noteEn": "myTokenRegenerated on main. Connected streams are not disconnected, the same as upstream"
+  },
+  "i/registry/get": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/get-all": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/get-detail": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/keys": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/keys-with-type": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/remove": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/scopes-with-domain": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/registry/set": {
+    "status": "compatible",
+    "note": "domain の扱い（set / remove は truthy 判定）も upstream 同様",
+    "noteEn": "Handling of domain (set / remove is a truthy check) is also the same as upstream"
+  },
+  "i/revoke-token": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/signin-history": {
+    "status": "compatible",
+    "note": "makePaginationQuery 相当",
+    "noteEn": "Equivalent to makePaginationQuery"
+  },
+  "i/unpin": {
+    "status": "compatible",
+    "note": "NotePiningService.removePinned（Remove をリモートフォロワーと LD 署名付きでリレーへ）",
+    "noteEn": "NotePiningService.removePinned (Remove goes to remote followers and to relays with an LD signature)"
+  },
+  "i/update": {
+    "status": "compatible",
+    "note": "AccountUpdateService 相当（Update(Person) をリモートフォロワーと LD 署名付きでリレーへ）。MeDetailed の includeSecrets はネイティブトークンのときのみ（upstream isSecure）",
+    "noteEn": "Equivalent to AccountUpdateService (Update(Person) goes to remote followers and to relays with an LD signature). MeDetailed's includeSecrets is only for a native token (upstream isSecure)"
+  },
+  "i/webhooks/create": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/webhooks/delete": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/webhooks/list": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/webhooks/show": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  },
+  "i/webhooks/test": {
+    "status": "compatible",
+    "note": "WebhookTestService のダミーペイロードを再現（試行 1 回）",
+    "noteEn": "Reproduces WebhookTestService's dummy payload (1 attempt)"
+  },
+  "i/webhooks/update": {
+    "status": "compatible",
+    "note": "upstream と同じ（PG）",
+    "noteEn": "Same as upstream (PG)"
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "admin/abuse-report/notification-recipient/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/abuse-report/notification-recipient/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/abuse-report/notification-recipient/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/abuse-report/notification-recipient/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/abuse-report/notification-recipient/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/abuse-user-reports": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/accounts/create": {
+    "status": "deviation",
+    "note": "初期セットアップ（rootUserId が null のあいだの匿名呼び出し）には SETUP_PASSWORD の設定と一致が必須（upstream では setupPassword は任意）。パスワードを持つローカルアカウントが既にあれば、rootUserId を消しても匿名のセットアップは開かない",
+    "noteEn": "Initial setup (anonymous calls while rootUserId is null) requires SETUP_PASSWORD to be set and to match (in upstream, setupPassword is optional). If a local account with a password already exists, clearing rootUserId does not open anonymous setup",
+    "summary": "初期セットアップに SETUP_PASSWORD が必須",
+    "summaryEn": "SETUP_PASSWORD is required for the initial setup"
+  },
+  "admin/accounts/delete": {
+    "status": "compatible",
+    "note": "削除処理は mk-jobs の有界ステップで upstream と同じ手順（最後に「Account deleted」メール）",
+    "noteEn": "Deletion runs in bounded steps on mk-jobs, with the same procedure as upstream (an \"Account deleted\" email at the end)"
+  },
+  "admin/accounts/find-by-email": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/ad/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/ad/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/ad/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/ad/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/announcements/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/announcements/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/announcements/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/announcements/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/avatar-decorations/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/avatar-decorations/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/avatar-decorations/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/avatar-decorations/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/captcha/current": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/captcha/save": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/delete-account": {
+    "status": "compatible",
+    "note": "削除処理は mk-jobs の有界ステップで upstream と同じ手順（最後に「Account deleted」メール）",
+    "noteEn": "Deletion runs in bounded steps on mk-jobs, with the same procedure as upstream (an \"Account deleted\" email at the end)"
+  },
+  "admin/delete-all-files-of-a-user": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/drive/clean-remote-files": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/drive/cleanup": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/drive/files": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/drive/show-file": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/add": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/add-aliases-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/copy": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/delete-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/import-zip": {
+    "status": "deviation",
+    "note": "インポートは mk-jobs で 20 エントリずつのステップに分割（Worker の CPU/サブリクエスト制限）。meta.json の無い zip はジョブ内でログを出して破棄（upstream はジョブが例外）。API の応答は同じ。",
+    "noteEn": "The import is split into steps of 20 entries each on mk-jobs (Worker CPU/subrequest limits). A zip without meta.json is logged and discarded inside the job (in upstream the job throws). The API response is the same.",
+    "summary": "インポートを複数ジョブに分割",
+    "summaryEn": "The import is split into several jobs"
+  },
+  "admin/emoji/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/list-remote": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/remove-aliases-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/set-aliases-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/set-category-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/set-license-bulk": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/emoji/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/federation/delete-all-files": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/federation/refresh-remote-instance-metadata": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/federation/remove-all-following": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/federation/update-instance": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/forward-abuse-user-report": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/get-index-stats": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/get-table-stats": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/get-user-ips": {
+    "status": "compatible",
+    "note": "IP は router（callGate）が upstream の logIp と同じく meta.enableIpLogging 時に記録（記録済み判定は isolate ごと）",
+    "noteEn": "IPs are recorded by the router (callGate) when meta.enableIpLogging is set, the same as upstream's logIp (the already-recorded check is per isolate)"
+  },
+  "admin/invite/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/invite/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/meta": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/promo/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/queue/clear": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 待機中・処理中のメッセージは消せない（CF REST API とアカウントトークンが必要）。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Waiting and in-progress messages cannot be deleted (the CF REST API and an account token are required).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/deliver-delayed": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/inbox-delayed": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/retry-job": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 保存済みの本文を再投入する。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). The saved body is re-enqueued.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/remove-job": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 遅延中の元メッセージは再配達時に ack して破棄。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). The original delayed message is acked and discarded when it is redelivered.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/show-job": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 stacktrace は空、returnValue は null。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). stacktrace is empty, and returnValue is null.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/show-job-logs": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 ログは失敗した試行ごとの 1 行（最大 20）。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Logs are one line per failed attempt (at most 20).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/promote-jobs": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 CF Queues は遅延を短縮できないため retry-job と同じく再投入。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). CF Queues cannot shorten a delay, so it re-enqueues the same way as retry-job.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/pause": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 一時停止中の種別は consumer が 60 秒遅延で再送する。全 isolate への反映に最大 10 秒。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Paused types are resent by the consumer with a 60-second delay. Propagation to all isolates takes at most 10 seconds.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/resume": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 全 isolate への反映に最大 10 秒。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Propagation to all isolates takes at most 10 seconds.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/jobs": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 取得できるのは failed / delayed のみ（active / wait / completed は空）。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Only failed / delayed can be retrieved (active / wait / completed are empty).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/stats": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 deliver/inbox/db/objectStorage の各カウントは推定値（objectStorage は常に 0、active は 0）。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). Each count for deliver/inbox/db/objectStorage is an estimate (objectStorage is always 0, and active is 0).",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/queues": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 system / endedPollNotification / relationship / objectStorage は対応するキューが無く常に空。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). system / endedPollNotification / relationship / objectStorage have no corresponding queue and are always empty.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/queue/queue-stats": {
+    "status": "approx",
+    "note": "BullMQ のジョブ一覧・カウントは CF Queues から取得できないため、api の consumer が OpsStats DO に記録した範囲（失敗・遅延ジョブのリング最大 100 件、累積カウンタ、直近 60 分のメトリクス）で近似。 db（Redis INFO）はプレースホルダ、qualifiedName は CF キュー名。",
+    "noteEn": "BullMQ job lists and counts cannot be obtained from CF Queues, so they are approximated from the range the api consumer recorded in the OpsStats DO (a ring of at most 100 failed/delayed jobs, cumulative counters, and metrics for the last 60 minutes). db (Redis INFO) is a placeholder, and qualifiedName is the CF queue name.",
+    "summary": "ジョブ一覧は失敗・遅延分のみ（Queues から取得不可）",
+    "summaryEn": "Only failed and delayed jobs are listed (Queues cannot be listed)"
+  },
+  "admin/reset-password": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/resolve-abuse-user-report": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/assign": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/unassign": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/update-default-policies": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/roles/users": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/server-info": {
+    "status": "approx",
+    "note": "Worker には OS / CPU / メモリ / ディスク / NIC の情報が無いため machine 等は固定値、psql は PG の server_version、Redis が無いので redis キーは無い。形は upstream と同じ。",
+    "noteEn": "A Worker has no OS / CPU / memory / disk / NIC information, so machine and the like are fixed values, psql is PG's server_version, and there is no redis key because there is no Redis. The shape is the same as upstream.",
+    "summary": "マシン情報は固定値",
+    "summaryEn": "Machine information is fixed"
+  },
+  "admin/show-moderation-logs": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/show-user": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/show-users": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/suspend-user": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/test": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/system-webhook/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/unset-mfa": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/unset-user-avatar": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/unset-user-banner": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/unsuspend-user": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/update-abuse-user-report": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/update-meta": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/update-proxy-account": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/update-user-note": {
+    "status": "compatible",
+    "note": ""
+  }
+}

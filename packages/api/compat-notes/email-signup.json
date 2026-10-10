@@ -1,0 +1,50 @@
+{
+  "i/update-email": {
+    "status": "deviation",
+    "note": "メールは SMTP ではなく Cloudflare Email Service（EMAIL バインディング）で mk-jobs の sendEmail ジョブから送信（Workers から SMTP 不可）。smtp* 設定は未使用",
+    "noteEn": "Mail is sent from the mk-jobs sendEmail job via Cloudflare Email Service (the EMAIL binding), not SMTP (SMTP is not possible from Workers). smtp* settings are unused",
+    "summary": "Cloudflare Email Service で送信",
+    "summaryEn": "Sent through Cloudflare Email Service"
+  },
+  "verify-email": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/send-email": {
+    "status": "deviation",
+    "note": "送信は Cloudflare Email Service（upstream 同様に同期送信、失敗時 500）。smtp* 設定は未使用",
+    "noteEn": "Sending uses Cloudflare Email Service (synchronous send, the same as upstream; 500 on failure). smtp* settings are unused",
+    "summary": "Cloudflare Email Service で送信",
+    "summaryEn": "Sent through Cloudflare Email Service"
+  },
+  "request-reset-password": {
+    "status": "deviation",
+    "note": "メールは Cloudflare Email Service で mk-jobs 経由の非同期送信（Workers から SMTP 不可）",
+    "noteEn": "Mail is sent asynchronously via mk-jobs using Cloudflare Email Service (SMTP is not possible from Workers)",
+    "summary": "Cloudflare Email Service で送信",
+    "summaryEn": "Sent through Cloudflare Email Service"
+  },
+  "reset-password": {
+    "status": "compatible",
+    "note": ""
+  },
+  "email-address/available": {
+    "status": "compatible",
+    "note": "能動検証は verifymail / truemail API、どちらも未設定なら deep-email-validator 相当（同梱の使い捨てドメイン一覧と、DNS over HTTPS（cloudflare-dns.com）での MX 確認）",
+    "noteEn": "Active validation uses the verifymail / truemail API; if neither is configured, it is equivalent to deep-email-validator (the bundled disposable-domain list, and an MX check via DNS over HTTPS (cloudflare-dns.com))"
+  },
+  "signup": {
+    "status": "deviation",
+    "note": "特殊ルート（endpoint-list 外）。EMAIL バインディングが無いと emailRequiredForSignup を無視（メールを送れないため）。初期セットアップ前（rootUserId が null）は SETUP_REQUIRED で拒否し、最初の登録者を root にしない",
+    "noteEn": "Special route (outside endpoint-list). Without the EMAIL binding, emailRequiredForSignup is ignored (because mail cannot be sent). Before initial setup (rootUserId is null) it is rejected with SETUP_REQUIRED, and the first registrant is not made root",
+    "summary": "初期セットアップ前は拒否",
+    "summaryEn": "Refused before the initial setup"
+  },
+  "signup-pending": {
+    "status": "deviation",
+    "note": "特殊ルート（endpoint-list 外）。初期セットアップ前（rootUserId が null）は SETUP_REQUIRED で拒否",
+    "noteEn": "Special route (outside endpoint-list). Before initial setup (rootUserId is null) it is rejected with SETUP_REQUIRED",
+    "summary": "初期セットアップ前は拒否",
+    "summaryEn": "Refused before the initial setup"
+  }
+}

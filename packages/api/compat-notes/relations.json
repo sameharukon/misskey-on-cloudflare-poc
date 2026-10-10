@@ -1,0 +1,102 @@
+{
+  "blocking/create": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "blocking/delete": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "blocking/list": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/create": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/delete": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/invalidate": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/list": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/requests/accept": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/requests/cancel": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/requests/list": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/requests/reject": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/requests/sent": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/update": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "following/update-all": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "mute/create": {
+    "status": "compatible",
+    "note": "期限切れミュートは upstream の定期ジョブ削除の代わりにクエリ側で除外（cron でも削除）",
+    "noteEn": "Expired mutes are excluded on the query side instead of upstream's periodic-job deletion (also deleted by cron)"
+  },
+  "mute/delete": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "mute/list": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "renote-mute/create": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "renote-mute/delete": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  },
+  "renote-mute/list": {
+    "status": "compatible",
+    "note": "UserFollowingService / UserBlockingService / UserMutingService の副作用（カウンタ・ストリーム・通知・webhook・AP）を移植",
+    "noteEn": "Ports the side effects of UserFollowingService / UserBlockingService / UserMutingService (counters, streams, notifications, webhooks, and AP)"
+  }
+}

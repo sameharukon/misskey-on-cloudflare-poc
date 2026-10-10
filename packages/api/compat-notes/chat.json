@@ -1,0 +1,111 @@
+{
+  "chat/messages/create-to-user": {
+    "status": "deviation",
+    "note": "3 秒後の newChatMessage（main / Web Push）は mk-jobs の delaySeconds で送る。既読判定は Redis マーカーの代わりに chat_message.reads 列で、会話チャンネル購読中の受信者は既読扱い（クライアントの read フレームを hub が PG に書けないため）。",
+    "noteEn": "The newChatMessage (main / Web Push) after 3 seconds is sent with mk-jobs delaySeconds. Read state is determined from the chat_message.reads column instead of a Redis marker, and a recipient subscribed to the conversation channel is treated as having read it (because the hub cannot write the client's read frame to PG).",
+    "summary": "既読判定を PostgreSQL の列で行う",
+    "summaryEn": "Read state is tracked in a PostgreSQL column"
+  },
+  "chat/messages/create-to-room": {
+    "status": "deviation",
+    "note": "3 秒後の newChatMessage（main / Web Push）は mk-jobs の delaySeconds で送る。既読判定は Redis マーカーの代わりに chat_message.reads 列で、ルームチャンネル購読中の受信者は既読扱い（クライアントの read フレームを hub が PG に書けないため）。",
+    "noteEn": "The newChatMessage (main / Web Push) after 3 seconds is sent with mk-jobs delaySeconds. Read state is determined from the chat_message.reads column instead of a Redis marker, and a recipient subscribed to the room channel is treated as having read it (because the hub cannot write the client's read frame to PG).",
+    "summary": "既読判定を PostgreSQL の列で行う",
+    "summaryEn": "Read state is tracked in a PostgreSQL column"
+  },
+  "chat/messages/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/react": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/unreact": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/user-timeline": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/room-timeline": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/messages/search": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/join": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/leave": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/mute": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/owned": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/joining": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/update": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/members": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/invitations/create": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/invitations/ignore": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/invitations/inbox": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/rooms/invitations/outbox": {
+    "status": "compatible",
+    "note": ""
+  },
+  "chat/history": {
+    "status": "deviation",
+    "note": "isRead は Redis マーカーではなく chat_message.reads 列から算出。ルームの未読はメッセージ到着時ではなく取得時に判定するため、後からミュートしたルームは未読にならない。",
+    "noteEn": "isRead is computed from the chat_message.reads column rather than a Redis marker. A room's unread state is determined at fetch time rather than when the message arrives, so a room muted later does not become unread.",
+    "summary": "既読判定を PostgreSQL の列で行う",
+    "summaryEn": "Read state is tracked in a PostgreSQL column"
+  },
+  "chat/read-all": {
+    "status": "compatible",
+    "note": ""
+  }
+}

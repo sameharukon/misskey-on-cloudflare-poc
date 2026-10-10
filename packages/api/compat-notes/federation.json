@@ -1,0 +1,41 @@
+{
+  "ap/get": {
+    "status": "compatible",
+    "note": ""
+  },
+  "ap/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/followers": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/following": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/instances": {
+    "status": "deviation",
+    "note": "既存デプロイの統計値は admin/cf-debug/backfill-instances で再計算するまで 0 から数える。",
+    "noteEn": "Stats for an existing deployment count from 0 until recomputed by admin/cf-debug/backfill-instances.",
+    "summary": "既存デプロイの統計値は再計算が必要",
+    "summaryEn": "Stats on existing deployments need recomputing"
+  },
+  "federation/show-instance": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/stats": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/update-remote-user": {
+    "status": "compatible",
+    "note": ""
+  },
+  "federation/users": {
+    "status": "compatible",
+    "note": ""
+  }
+}

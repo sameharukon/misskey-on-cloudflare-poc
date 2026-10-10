@@ -1,0 +1,15 @@
+{
+  "admin/relays/add": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/relays/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "admin/relays/remove": {
+    "status": "compatible",
+    "note": "受理済みリレーの 10 分キャッシュは isolate ごと。公開ノート・削除・Update(Person)（移行時を含む）・ピン留めの Add / Remove・投票の Update(Question) を LD 署名（RsaSignature2017、jsonld）付きでリレーへ配送し、リレー経由の受信も LD 署名で検証する",
+    "noteEn": "The 10-minute cache of accepted relays is per isolate. Public notes, deletions, Update(Person) (including on move), pin Add / Remove, and vote Update(Question) are delivered to relays with an LD signature (RsaSignature2017, jsonld), and reception via relays is also verified with an LD signature"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "roles/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "roles/notes": {
+    "status": "compatible",
+    "note": ""
+  },
+  "roles/show": {
+    "status": "compatible",
+    "note": ""
+  },
+  "roles/users": {
+    "status": "compatible",
+    "note": ""
+  }
+}

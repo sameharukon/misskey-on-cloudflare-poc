@@ -1,0 +1,100 @@
+{
+  "emoji": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "emojis": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "endpoint": {
+    "status": "compatible",
+    "note": "paramDef から params を生成（upstream と同じ形）",
+    "noteEn": "Generates params from paramDef (the same shape as upstream)"
+  },
+  "endpoints": {
+    "status": "compatible",
+    "note": "upstream の endpoint-list と同じ順序",
+    "noteEn": "The same order as upstream's endpoint-list"
+  },
+  "export-custom-emojis": {
+    "status": "compatible",
+    "note": "ExportCustomEmojisProcessorService 相当（mk-jobs、zip をドライブへ保存し exportCompleted 通知）",
+    "noteEn": "Equivalent to ExportCustomEmojisProcessorService (mk-jobs; saves the zip to the drive and sends an exportCompleted notification)"
+  },
+  "fetch-external-resources": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "fetch-rss": {
+    "status": "deviation",
+    "note": "同時実行上限（32）と同一 URL の合流は isolate 単位",
+    "noteEn": "The concurrency limit (32) and coalescing of the same URL are per isolate",
+    "summary": "同時実行上限は isolate 単位",
+    "summaryEn": "The concurrency limit is per isolate"
+  },
+  "get-avatar-decorations": {
+    "status": "compatible",
+    "note": "ロール id は存在するロール（未ログイン時は公開ロール）に限定",
+    "noteEn": "Role ids are limited to roles that exist (public roles when not logged in)"
+  },
+  "get-online-users-count": {
+    "status": "compatible",
+    "note": "lastActiveDate が 10 分以内のユーザー数",
+    "noteEn": "The number of users whose lastActiveDate is within 10 minutes"
+  },
+  "meta": {
+    "status": "deviation",
+    "note": "MetaEntityService.pack / packDetailed 相当。NULL の列は upstream と同じく null を返す。repositoryUrl が NULL のときだけ、AGPL §13 のソース提供のためにこのフォークの URL を返す（packages/api/src/meta-defaults.ts）",
+    "noteEn": "Equivalent to MetaEntityService.pack / packDetailed. NULL columns are returned as null, as upstream does. Only a NULL repositoryUrl falls back to this fork's URL, to offer the source under AGPL §13 (packages/api/src/meta-defaults.ts)",
+    "summary": "repositoryUrl が未設定のときはフォークの URL を返す",
+    "summaryEn": "Returns this fork's URL when repositoryUrl is unset"
+  },
+  "ping": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "pinned-users": {
+    "status": "compatible",
+    "note": "Acct.parse したアカウントを凍結の有無にかかわらず解決（upstream 同様）",
+    "noteEn": "Resolves the account from Acct.parse regardless of whether it is suspended (the same as upstream)"
+  },
+  "reset-db": {
+    "status": "compatible",
+    "note": "NODE_ENV=test 以外として常に INTERNAL_ERROR",
+    "noteEn": "Always INTERNAL_ERROR, as if it were not NODE_ENV=test"
+  },
+  "retention": {
+    "status": "compatible",
+    "note": "集計は cron（AggregateRetentionProcessorService 相当）",
+    "noteEn": "Aggregation is done by cron (equivalent to AggregateRetentionProcessorService)"
+  },
+  "server-info": {
+    "status": "deviation",
+    "note": "Worker にはマシン情報がないため、常に enableServerMachineStats 無効時の固定値を返す",
+    "noteEn": "A Worker has no machine information, so it always returns the fixed values used when enableServerMachineStats is disabled",
+    "summary": "マシン情報は固定値",
+    "summaryEn": "Machine information is fixed"
+  },
+  "stats": {
+    "status": "approx",
+    "note": "notesCount / usersCount はチャートの total ではなく現存行数、reactionsCount / instances は行数（upstream は 1 時間キャッシュ付き count）",
+    "noteEn": "notesCount / usersCount are the number of existing rows, not the chart total; reactionsCount / instances are row counts (upstream is a count with a 1-hour cache)",
+    "summary": "件数は現存行数",
+    "summaryEn": "Counts are current row counts"
+  },
+  "test": {
+    "status": "compatible",
+    "note": "検証済みパラメータ（既定値・i を含む）をそのまま返す",
+    "noteEn": "Returns the validated parameters (including defaults and i) as-is"
+  },
+  "username/available": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  }
+}

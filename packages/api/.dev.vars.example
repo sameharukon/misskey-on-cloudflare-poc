@@ -1,0 +1,5 @@
+# Copy to .dev.vars locally — never commit real secrets
+# INSTANCE_URL=http://127.0.0.1:8787
+# VERSION=0.0.0-cf-dev
+# BOOTSTRAP_META_JSON={"name":"dev","disableRegistration":false}
+# HYPERDRIVE_LOCAL_CONNECTION_STRING=postgres://user:pass@localhost:5432/misskey

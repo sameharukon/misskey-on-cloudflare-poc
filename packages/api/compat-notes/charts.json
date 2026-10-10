@@ -1,0 +1,86 @@
+{
+  "charts/active-users": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/ap-request": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/drive": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/federation": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/instance": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/notes": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/user/drive": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/user/following": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/user/notes": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/user/pv": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/user/reactions": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  },
+  "charts/users": {
+    "status": "approx",
+    "note": "__chart__* テーブルの代わりに元テーブルの行を時刻バケットで集計（削除は反映されない、federation / ap-request / user/pv / instance の requests は 0）",
+    "noteEn": "Instead of __chart__* tables, rows of the source tables are aggregated into time buckets (deletions are not reflected; federation / ap-request / user/pv / instance's requests are 0)",
+    "summary": "元テーブルから都度集計。削除数とイベント由来の系列は 0",
+    "summaryEn": "Computed from the source tables on request. Decrements and event-based series are 0"
+  }
+}

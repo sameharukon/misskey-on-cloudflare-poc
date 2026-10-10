@@ -1,0 +1,166 @@
+{
+  "users": {
+    "status": "compatible",
+    "note": "ミュート・ブロック除外も upstream 同様",
+    "noteEn": "Mute and block exclusion is also the same as upstream"
+  },
+  "users/achievements": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/clips": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/featured-notes": {
+    "status": "approx",
+    "note": "getPerUserNotesRanking（Redis）を note_reaction / renote 行から同じ 7 日窓・スコアで集計して近似。ブロック・ミュート・ブロックホスト・凍結ユーザーの除外は upstream 同様",
+    "noteEn": "Approximates getPerUserNotesRanking (Redis) by aggregating note_reaction / renote rows over the same 7-day window and score. Exclusion of blocks, mutes, blocked hosts, and suspended users is the same as upstream",
+    "summary": "ランキングを PostgreSQL で集計（近似）",
+    "summaryEn": "Ranking aggregated in PostgreSQL (approximate)"
+  },
+  "users/flashs": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/followers": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/following": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/gallery/posts": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/get-following-users-by-birthday": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/get-frequently-replied-users": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/create": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/create-from-public": {
+    "status": "compatible",
+    "note": "UserListService.addMember 相当で順に追加（途中でエラーなら upstream 同様そこで停止）",
+    "noteEn": "Adds them in order, equivalent to UserListService.addMember (if an error occurs midway, it stops there, the same as upstream)"
+  },
+  "users/lists/delete": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/favorite": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/get-memberships": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/list": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/pull": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/push": {
+    "status": "compatible",
+    "note": "UserListService.addMember（上限・userAdded・リモートメンバーは proxy アカウントでフォロー）",
+    "noteEn": "UserListService.addMember (the limit, userAdded; remote members are followed with a proxy account)"
+  },
+  "users/lists/show": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/unfavorite": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/update": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/lists/update-membership": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/notes": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  },
+  "users/pages": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/reactions": {
+    "status": "compatible",
+    "note": "モデレーター以外のブロック・公開設定チェック、可視性・ブロックホスト・凍結ユーザー除外、isUserRelated フィルタを upstream 同様に適用",
+    "noteEn": "Applies the block and public-setting checks for non-moderators, the visibility / blocked-host / suspended-user exclusions, and the isUserRelated filter, the same as upstream"
+  },
+  "users/recommendation": {
+    "status": "compatible",
+    "note": "upstream のクエリは note テーブルを結合せずに note.userId を参照するため常に INTERNAL_ERROR になる（upstream の e2e テストにも記載）。この挙動をそのまま再現",
+    "noteEn": "Upstream's query references note.userId without joining the note table, so it is always INTERNAL_ERROR (also noted in upstream's e2e test). This behaviour is reproduced as-is"
+  },
+  "users/relation": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  },
+  "users/report-abuse": {
+    "status": "compatible",
+    "note": "AbuseReportService 相当（モデレーターの admin ストリーム・system webhook、`email` の通報通知先と meta.email へのメールは Cloudflare Email Service 経由）",
+    "noteEn": "Equivalent to AbuseReportService (moderators' admin stream and system webhook; mail to the `email` report-notification recipients and to meta.email is via Cloudflare Email Service)"
+  },
+  "users/search": {
+    "status": "compatible",
+    "note": "UserSearchService.search（名前・ユーザー名 → プロフィール説明の順、重複も upstream 同様に残る）",
+    "noteEn": "UserSearchService.search (name and username, then profile description; duplicates are also kept, the same as upstream)"
+  },
+  "users/search-by-username-and-host": {
+    "status": "compatible",
+    "note": "UserSearchService.searchByUsernameAndHost のクエリ順（フォロー中 active → inactive → その他）を再現。ログイン時は updatedAt が NULL の非フォローユーザーが出ない点も upstream 同様",
+    "noteEn": "Reproduces the query order of UserSearchService.searchByUsernameAndHost (followed active → inactive → others). When logged in, non-followed users whose updatedAt is NULL do not appear, which is also the same as upstream"
+  },
+  "users/show": {
+    "status": "compatible",
+    "note": "未知のリモートユーザーは WebFinger で解決（RemoteUserResolveService）",
+    "noteEn": "Unknown remote users are resolved via WebFinger (RemoteUserResolveService)"
+  },
+  "users/update-memo": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・パッキング（PG）",
+    "noteEn": "The same query and packing as upstream (PG)"
+  }
+}

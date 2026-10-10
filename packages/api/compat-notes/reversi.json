@@ -1,0 +1,30 @@
+{
+  "reversi/cancel-match": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/games": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/invitations": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/match": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/show-game": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/surrender": {
+    "status": "compatible",
+    "note": ""
+  },
+  "reversi/verify": {
+    "status": "compatible",
+    "note": ""
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "announcements": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "announcements/show": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "app/create": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "app/show": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "auth/accept": {
+    "status": "compatible",
+    "note": "セッション認証フローは upstream と同じ",
+    "noteEn": "The session authentication flow is the same as upstream"
+  },
+  "auth/session/generate": {
+    "status": "compatible",
+    "note": "セッション認証フローは upstream と同じ",
+    "noteEn": "The session authentication flow is the same as upstream"
+  },
+  "auth/session/show": {
+    "status": "compatible",
+    "note": "セッション認証フローは upstream と同じ",
+    "noteEn": "The session authentication flow is the same as upstream"
+  },
+  "auth/session/userkey": {
+    "status": "compatible",
+    "note": "セッション認証フローは upstream と同じ",
+    "noteEn": "The session authentication flow is the same as upstream"
+  },
+  "invite/create": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "invite/delete": {
+    "status": "compatible",
+    "note": "招待コード（registration_ticket）は upstream と同じ",
+    "noteEn": "Invite codes (registration_ticket) are the same as upstream"
+  },
+  "invite/limit": {
+    "status": "compatible",
+    "note": "招待コード（registration_ticket）は upstream と同じ",
+    "noteEn": "Invite codes (registration_ticket) are the same as upstream"
+  },
+  "invite/list": {
+    "status": "compatible",
+    "note": "招待コード（registration_ticket）は upstream と同じ",
+    "noteEn": "Invite codes (registration_ticket) are the same as upstream"
+  },
+  "miauth/gen-token": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "my/apps": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "notifications/create": {
+    "status": "compatible",
+    "note": "通知は Durable Object（NotificationBox）に保存",
+    "noteEn": "Notifications are stored in a Durable Object (NotificationBox)"
+  },
+  "notifications/flush": {
+    "status": "compatible",
+    "note": "notificationFlushed を発行",
+    "noteEn": "Emits notificationFlushed"
+  },
+  "notifications/mark-all-as-read": {
+    "status": "compatible",
+    "note": "readAllNotification(force=true) も upstream 同様",
+    "noteEn": "readAllNotification(force=true) is also the same as upstream"
+  },
+  "notifications/test-notification": {
+    "status": "compatible",
+    "note": "通知は Durable Object（NotificationBox）に保存",
+    "noteEn": "Notifications are stored in a Durable Object (NotificationBox)"
+  },
+  "promo/read": {
+    "status": "compatible",
+    "note": "upstream と同じ",
+    "noteEn": "Same as upstream"
+  },
+  "sw/register": {
+    "status": "compatible",
+    "note": "Web Push（VAPID / aes128gcm）を Worker で送信",
+    "noteEn": "Sends Web Push (VAPID / aes128gcm) from a Worker"
+  },
+  "sw/show-registration": {
+    "status": "compatible",
+    "note": "Web Push（VAPID / aes128gcm）を Worker で送信",
+    "noteEn": "Sends Web Push (VAPID / aes128gcm) from a Worker"
+  },
+  "sw/unregister": {
+    "status": "compatible",
+    "note": "Web Push（VAPID / aes128gcm）を Worker で送信",
+    "noteEn": "Sends Web Push (VAPID / aes128gcm) from a Worker"
+  },
+  "sw/update-registration": {
+    "status": "compatible",
+    "note": "Web Push（VAPID / aes128gcm）を Worker で送信",
+    "noteEn": "Sends Web Push (VAPID / aes128gcm) from a Worker"
+  }
+}

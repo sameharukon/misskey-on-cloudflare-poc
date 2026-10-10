@@ -1,0 +1,215 @@
+name = "misskey-cf-api"
+main = "src/worker.ts"
+compatibility_date = "2025-09-01"
+# stack traces in Workers Logs / Issues point at the TypeScript sources
+upload_source_maps = true
+compatibility_flags = ["nodejs_compat"]
+# Not on the internet: the gateway Worker is the only public origin; this one is reached through
+# service bindings, Durable Objects and Queues (README.md: Architecture)
+workers_dev = false
+preview_urls = false
+
+# Run next to the PostgreSQL origin (AWS Tokyo): every request, waitUntil work and queue batch
+# makes dozens of serial queries, and a Worker run where a request enters (e.g. Frankfurt for
+# mastodon.social) paid a Tokyo round trip on each of them. Smart Placement did not move it.
+[placement]
+region = "aws:ap-northeast-1"
+
+# Logs and traces keep 25% of invocations: API calls, queue batches and federation.
+# Both are billed per event from 2026-12-01; invocation counts, CPU time and errors stay
+# complete in the Worker's metrics.
+[observability]
+enabled = true
+head_sampling_rate = 0.25
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.25
+
+# Workers Issues: groups production failures (exceptions, console.error) — needs Wrangler 4.134.0+
+[observability.issues]
+enabled = true
+
+[vars]
+STREAM_SHARD_COUNT = "16"
+VERSION = "0.0.0-cf"
+# Public origin: the gateway Worker, which forwards /api, /streaming, AP and /files here (service binding API)
+INSTANCE_URL = "https://__MISSKEY_CF_DOMAIN__"
+# BOOTSTRAP_META_JSON
+# SETUP_PASSWORD: secret (`wrangler secret put SETUP_PASSWORD`); required for the initial admin/accounts/create
+# MEDIA_PROXY = "https://misskey.example.com/proxy"
+# MAX_FILE_SIZE = "104857600"  # default 100 MB; above it needs a zone plan with a larger body limit (README.md: Workers constraints)
+# PG_PIPELINE = "1"  # pg pipeline mode: independent queries started together share a round trip
+#                     (packages/db/src/hyperdrive.ts); off until confirmed through Hyperdrive
+# DEACTIVATE_ANTENNA_THRESHOLD = "604800000"  # ms without antennas/notes before an antenna stops ("0" = never)
+
+# Hyperdrive → Postgres (no secrets in repo).
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "__MISSKEY_CF_HYPERDRIVE_ID__"
+
+[[kv_namespaces]]
+binding = "META_CACHE"
+id = "__MISSKEY_CF_META_CACHE_KV_ID__"
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "misskey-cf-media"
+
+# sharp/ffmpeg Container (thumbnails, webpublic, blurhash) — packages/media
+[[services]]
+binding = "MEDIA"
+service = "misskey-cf-media"
+
+[[queues.producers]]
+binding = "Q_TIMELINE_FANOUT"
+queue = "mk-timeline-fanout"
+
+[[queues.producers]]
+binding = "Q_DELIVER"
+queue = "mk-deliver"
+
+[[queues.producers]]
+binding = "Q_INBOX"
+queue = "mk-inbox"
+
+[[queues.producers]]
+binding = "Q_WEBHOOK_DELIVER"
+queue = "mk-webhook-deliver"
+
+[[queues.producers]]
+binding = "Q_JOBS"
+queue = "mk-jobs"
+
+# Cloudflare Email Service (Email Sending): verification / reset / signup / notification mail
+# (src/email.ts). Sends to arbitrary recipients from meta.email; the sender domain must be
+# onboarded to Email Service (Workers Paid plan, a project prerequisite).
+[[send_email]]
+name = "EMAIL"
+
+
+# Read TimelineShard DOs owned by misskey-cf-timeline
+[[durable_objects.bindings]]
+name = "TIMELINE_SHARD"
+class_name = "TimelineShard"
+script_name = "misskey-cf-timeline"
+
+# Per-user notification streams (replaces upstream Redis notificationTimeline)
+[[durable_objects.bindings]]
+name = "NOTIFICATION_BOX"
+class_name = "NotificationBox"
+script_name = "misskey-cf-timeline"
+
+# Queue counters for admin/cf-debug/queues (misskey-cf-timeline)
+[[durable_objects.bindings]]
+name = "OPS_STATS"
+class_name = "OpsStats"
+script_name = "misskey-cf-timeline"
+
+# Online presence shards (misskey-cf-stream) for get-online-users-count
+[[durable_objects.bindings]]
+name = "STREAM_PRESENCE"
+class_name = "StreamPresence"
+script_name = "misskey-cf-stream"
+
+# Per-user WebSocket hubs (misskey-cf-stream)
+[[durable_objects.bindings]]
+name = "STREAM_HUB"
+class_name = "StreamHub"
+script_name = "misskey-cf-stream"
+
+# Note capture registry (misskey-cf-stream) for noteUpdated
+[[durable_objects.bindings]]
+name = "NOTE_WATCH"
+class_name = "NoteWatch"
+script_name = "misskey-cf-stream"
+
+# Poll end timers (one DO per poll note, alarm at expiresAt) — class lives in this worker
+[[durable_objects.bindings]]
+name = "POLL_TIMER"
+class_name = "PollTimer"
+
+[[durable_objects.bindings]]
+name = "ONCE_GUARD"
+class_name = "OnceGuard"
+
+# Reversi: matchmaking store (`match`) + per-game serializer / start alarm (`game:{id}`)
+[[durable_objects.bindings]]
+name = "REVERSI"
+class_name = "Reversi"
+
+# API rate limiting: one instance per actor (`rl:{userId | ip-hash}`), sliding-window logs
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+# Coarse per-IP limits (Workers Rate Limiting, per colo) in front of work that reaches out.
+# namespace_id is any number unique to the account's rate limiters.
+# Inbox POSTs, before they are queued: 600 a minute per IP (a busy relay or instance stays under it;
+# senders retry a 429)
+[[ratelimits]]
+name = "INBOX_RATE_LIMIT"
+namespace_id = "7601"
+simple = { limit = 600, period = 60 }
+
+# /proxy misses (edge cache hits are not counted) and /url: 300 a minute per IP
+[[ratelimits]]
+name = "FETCH_RATE_LIMIT"
+namespace_id = "7602"
+simple = { limit = 300, period = 60 }
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PollTimer"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["OnceGuard"]
+
+[[migrations]]
+tag = "v3"
+new_sqlite_classes = ["Reversi"]
+
+[[migrations]]
+tag = "v4"
+new_sqlite_classes = ["RateLimiter"]
+
+# ActivityPub consumers (moved here from misskey-cf-timeline stubs).
+# max_batch_timeout: a batch that does not fill up starts after this many seconds (CF default 5,
+# which delayed every follow / accept / delivery by up to 5 s at low traffic).
+# max_concurrency: each running batch holds a Hyperdrive client, and the origin connections (about
+# 100) are shared with the API; together the consumers stay at about half of them. Raise a
+# queue's value when its backlog grows and Hyperdrive's pool has room.
+[[queues.consumers]]
+queue = "mk-inbox"
+max_concurrency = 10
+max_batch_size = 10
+max_batch_timeout = 1
+max_retries = 5
+
+[[queues.consumers]]
+queue = "mk-deliver"
+max_concurrency = 20
+max_batch_size = 10
+max_batch_timeout = 1
+# 12 attempts over about 32–39 hours (upstream deliverJobMaxAttempts, httpRelatedBackoff)
+max_retries = 11
+
+# User webhooks (upstream userWebhookDeliver: 4 attempts; the consumer acks after maxAttempts)
+[[queues.consumers]]
+queue = "mk-webhook-deliver"
+max_concurrency = 5
+max_batch_size = 10
+max_batch_timeout = 2
+max_retries = 3
+
+# Background jobs (account deletion steps re-enqueue themselves)
+[[queues.consumers]]
+queue = "mk-jobs"
+max_concurrency = 5
+max_batch_size = 1
+max_retries = 5
+
+# Expired-mute cleanup (scheduled handler)
+[triggers]
+crons = ["17 * * * *"]

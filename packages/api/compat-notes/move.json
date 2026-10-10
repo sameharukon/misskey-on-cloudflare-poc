@@ -1,0 +1,9 @@
+{
+  "i/move": {
+    "status": "deviation",
+    "note": "24 時間後のアンフォローは CF Queues の遅延上限（12 時間）のため複数回に分けて待つ。フォロー移行・ブロック再適用・アンフォローは関係ごとのジョブではなく mk-jobs の段階ジョブ（50 件ずつ）。ユーザー別フォローチャートは更新しない（チャートはテーブルから集計）。移行先の alsoKnownAs は旧アカウントの URI との完全一致で確認する（upstream は部分一致）。実リモートとの相互運用は未確認",
+    "noteEn": "The unfollow after 24 hours waits in multiple steps because of the CF Queues delay limit (12 hours). Follow migration, reapplying blocks, and unfollow are staged jobs on mk-jobs (50 at a time), not a job per relationship. Per-user follow charts are not updated (charts are aggregated from tables). The destination's alsoKnownAs is checked by an exact match against the old account's URI (upstream is a partial match). Interoperability with real remotes is unconfirmed",
+    "summary": "処理を段階ジョブに分割。移行先の確認は完全一致",
+    "summaryEn": "Split into step jobs. The target is checked by exact match"
+  }
+}

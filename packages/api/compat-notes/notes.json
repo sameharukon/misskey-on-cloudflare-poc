@@ -1,0 +1,168 @@
+{
+  "notes": {
+    "status": "compatible",
+    "note": "packMany は閲覧者なし（upstream 同様）",
+    "noteEn": "packMany has no viewer (the same as upstream)"
+  },
+  "notes/children": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/clips": {
+    "status": "compatible",
+    "note": "公開クリップのみ（ClipEntityService.packMany）",
+    "noteEn": "Public clips only (ClipEntityService.packMany)"
+  },
+  "notes/conversation": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/create": {
+    "status": "deviation",
+    "note": "NoteCreateService を移植（検証順・エラー id・通知・カウンタ・webhook・ストリーム・AP 配信、公開ノートは LD 署名付きでリレーへも配信）。チャート更新は行わない（charts/* は行から集計）",
+    "noteEn": "Port of NoteCreateService (validation order, error ids, notifications, counters, webhooks, streams, and AP delivery; public notes are also delivered to relays with an LD signature). Charts are not updated (charts/* are aggregated from rows)",
+    "summary": "チャートを更新しない",
+    "summaryEn": "Charts are not updated"
+  },
+  "notes/delete": {
+    "status": "compatible",
+    "note": "NoteDeleteService を移植（モデレーターも可、他人のノート削除は deleteNote モデレーションログ。Delete は LD 署名付きでリレーへも配信）。renoteCount / notesCount は upstream 同様減らさない",
+    "noteEn": "Port of NoteDeleteService (moderators are also allowed; deleting someone else's note writes a deleteNote moderation log. Delete is also delivered to relays with an LD signature). renoteCount / notesCount are not decreased, the same as upstream"
+  },
+  "notes/favorites/create": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/favorites/delete": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/featured": {
+    "status": "approx",
+    "note": "FeaturedService のランキング（Redis・30% サンプリング）を note_reaction / note 行から同じ窓・スコアで集計して近似。30 分キャッシュは upstream 同様",
+    "noteEn": "Approximates FeaturedService's ranking (Redis, 30% sampling) by aggregating note_reaction / note rows over the same window and score. The 30-minute cache is the same as upstream",
+    "summary": "ランキングを PostgreSQL で集計（近似）",
+    "summaryEn": "Ranking aggregated in PostgreSQL (approximate)"
+  },
+  "notes/global-timeline": {
+    "status": "compatible",
+    "note": "upstream と同じく DB から取得",
+    "noteEn": "Fetched from the DB, the same as upstream"
+  },
+  "notes/hybrid-timeline": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  },
+  "notes/local-timeline": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  },
+  "notes/mentions": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/polls/recommendation": {
+    "status": "compatible",
+    "note": "upstream と同じ抽出条件",
+    "noteEn": "The same extraction conditions as upstream"
+  },
+  "notes/polls/vote": {
+    "status": "compatible",
+    "note": "PollService 相当（リモート投票は Create(Note) を投票先へ、ローカル投票は Update(Question) をリモートフォロワーと LD 署名付きでリレーへ）",
+    "noteEn": "Equivalent to PollService (a remote vote sends Create(Note) to the vote target; a local vote sends Update(Question) to remote followers and to relays with an LD signature)"
+  },
+  "notes/reactions": {
+    "status": "compatible",
+    "note": "見えないノートは upstream 同様 INTERNAL_ERROR",
+    "noteEn": "A note that is not visible is INTERNAL_ERROR, the same as upstream"
+  },
+  "notes/reactions/create": {
+    "status": "deviation",
+    "note": "ReactionService.create を移植（置き換え・通知・ストリーム・Like 配信先＝リモート作者＋フォロワー／specified の可視ユーザー）。Like のカスタム絵文字 tag は付与しない。リアクションバッファリング（enableReactionsBuffering）は非対応で常に即時反映",
+    "noteEn": "Port of ReactionService.create (replacement, notifications, streams, and Like delivery targets = the remote author + followers / the visible users of specified). A custom-emoji tag is not attached to Like. Reaction buffering (enableReactionsBuffering) is unsupported, and reactions are always applied immediately",
+    "summary": "リアクションのバッファリングなし",
+    "summaryEn": "No reaction buffering"
+  },
+  "notes/reactions/delete": {
+    "status": "deviation",
+    "note": "ReactionService.delete を移植（Undo Like をリモート作者とフォロワーへ）。リアクションバッファリングは非対応",
+    "noteEn": "Port of ReactionService.delete (Undo Like to the remote author and followers). Reaction buffering is unsupported",
+    "summary": "リアクションのバッファリングなし",
+    "summaryEn": "No reaction buffering"
+  },
+  "notes/renotes": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/replies": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/search": {
+    "status": "compatible",
+    "note": "SearchService.searchNoteByLike（sqlLike プロバイダ）相当。canSearchNotes ポリシーで UNAVAILABLE。Meilisearch プロバイダは非対応",
+    "noteEn": "Equivalent to SearchService.searchNoteByLike (the sqlLike provider). UNAVAILABLE under the canSearchNotes policy. The Meilisearch provider is unsupported"
+  },
+  "notes/search-by-tag": {
+    "status": "compatible",
+    "note": "安全でないタグは upstream 同様 Error(\"Injection\") → INTERNAL_ERROR",
+    "noteEn": "An unsafe tag is Error(\"Injection\") → INTERNAL_ERROR, the same as upstream"
+  },
+  "notes/show": {
+    "status": "compatible",
+    "note": "requireSigninToViewContents / makeNotes*Before による非表示・CONTENT_RESTRICTED_BY_* も upstream 同様",
+    "noteEn": "Hiding and CONTENT_RESTRICTED_BY_* from requireSigninToViewContents / makeNotes*Before are also the same as upstream"
+  },
+  "notes/show-partial-bulk": {
+    "status": "compatible",
+    "note": "fetchDiffs と同じ差分返却",
+    "noteEn": "Returns the same diffs as fetchDiffs"
+  },
+  "notes/state": {
+    "status": "compatible",
+    "note": "存在しないノートは upstream 同様 INTERNAL_ERROR",
+    "noteEn": "A note that does not exist is INTERNAL_ERROR, the same as upstream"
+  },
+  "notes/thread-muting/create": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/thread-muting/delete": {
+    "status": "compatible",
+    "note": "upstream と同じクエリ・フィルタ・パッキング（PG）",
+    "noteEn": "The same query, filters, and packing as upstream (PG)"
+  },
+  "notes/timeline": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  },
+  "notes/unrenote": {
+    "status": "compatible",
+    "note": "自分の全リノートを NoteDeleteService.delete で削除",
+    "noteEn": "Deletes all of one's own renotes with NoteDeleteService.delete"
+  },
+  "notes/user-list-timeline": {
+    "status": "approx",
+    "note": "notes の FanoutTimeline（Redis）を PG 上の同等クエリで再現（enableFanoutTimeline 時は FTT のアルゴリズム、sinceId 時と無効時は getFromDb）。リスト長上限（perUser*TimelineCacheMax）と hibernation は再現しない",
+    "noteEn": "Reproduces notes' FanoutTimeline (Redis) with an equivalent query on PG (the FTT algorithm when enableFanoutTimeline is on; getFromDb when sinceId is set and when enableFanoutTimeline is off). The list-length limit (perUser*TimelineCacheMax) and hibernation are not reproduced",
+    "summary": "Redis の代わりに PostgreSQL で同じ結果を返す。件数上限は再現しない",
+    "summaryEn": "PostgreSQL returns the same results instead of Redis. The length cap is not reproduced"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "notes/drafts/list": {
+    "status": "compatible",
+    "note": ""
+  },
+  "notes/drafts/create": {
+    "status": "deviation",
+    "note": "予約投稿の遅延ジョブは PollTimer DO のアラーム（無ければ mk-jobs の遅延、最大 12 時間）。取りこぼし対策の毎時 cron が 5 分超過した予約を再投稿し、そこでも失敗した下書きは予約解除する（upstream は失敗通知のみで再試行しない）。投稿は notes/create ハンドラ経由。",
+    "noteEn": "The delayed job for a scheduled note is a PollTimer DO alarm (if there is none, an mk-jobs delay, at most 12 hours). The hourly cron that catches misses re-posts schedules more than 5 minutes overdue, and a draft that fails there too is unscheduled (upstream only sends a failure notification and does not retry). The note is posted through the notes/create handler.",
+    "summary": "予約投稿は Durable Object のアラームで実行。失敗時は予約解除",
+    "summaryEn": "Scheduled posting runs on a Durable Object alarm. Unscheduled on failure"
+  },
+  "notes/drafts/delete": {
+    "status": "compatible",
+    "note": ""
+  },
+  "notes/drafts/update": {
+    "status": "deviation",
+    "note": "予約投稿の遅延ジョブは PollTimer DO のアラーム（無ければ mk-jobs の遅延、最大 12 時間）。取りこぼし対策の毎時 cron が 5 分超過した予約を再投稿し、そこでも失敗した下書きは予約解除する（upstream は失敗通知のみで再試行しない）。",
+    "noteEn": "The delayed job for a scheduled note is a PollTimer DO alarm (if there is none, an mk-jobs delay, at most 12 hours). The hourly cron that catches misses re-posts schedules more than 5 minutes overdue, and a draft that fails there too is unscheduled (upstream only sends a failure notification and does not retry).",
+    "summary": "予約投稿は Durable Object のアラームで実行。失敗時は予約解除",
+    "summaryEn": "Scheduled posting runs on a Durable Object alarm. Unscheduled on failure"
+  },
+  "notes/drafts/count": {
+    "status": "compatible",
+    "note": ""
+  },
+  "notes/translate": {
+    "status": "compatible",
+    "note": ""
+  }
+}
