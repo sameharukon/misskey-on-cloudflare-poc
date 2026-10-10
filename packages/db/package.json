@@ -1,0 +1,29 @@
+{
+  "name": "@misskey-cf/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Hyperdrive/pg types, repositories and schema migrations",
+  "license": "AGPL-3.0-only",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./migrate": "./src/migrate.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "migrate": "tsx scripts/migrate.ts",
+    "gen-types": "tsx scripts/gen-types.ts"
+  },
+  "dependencies": {
+    "kysely": "0.29.6",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
