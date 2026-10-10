@@ -1,0 +1,26 @@
+{
+  "name": "@misskey-cf/packers",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Note/User/Meta entity packers",
+  "license": "AGPL-3.0-only",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test src/packers.test.ts"
+  },
+  "dependencies": {
+    "@misskey-cf/id": "workspace:*",
+    "@misskey-cf/misskey-js-types": "workspace:*",
+    "json5": "2.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
