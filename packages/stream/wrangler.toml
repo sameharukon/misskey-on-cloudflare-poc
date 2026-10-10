@@ -1,0 +1,63 @@
+name = "misskey-cf-stream"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# stack traces in Workers Logs / Issues point at the TypeScript sources
+upload_source_maps = true
+# node:async_hooks (packages/shared/src/ops.ts, through @misskey-cf/shared) needs it
+compatibility_flags = ["nodejs_compat"]
+# Not on the internet: the gateway Worker is the only public origin; this one is reached through
+# service bindings, Durable Objects and Queues (README.md: Architecture)
+workers_dev = false
+preview_urls = false
+
+# Subrequests per invocation: a StreamPresence shard calls one StreamHub per online user it
+# delivers or broadcasts to, which can exceed the 10,000 default on a large instance.
+[limits]
+subrequests = 100000
+
+# Logs and traces keep 1% of invocations: every DO RPC, WebSocket event and alarm is an invocation; this Worker has the most.
+# Both are billed per event from 2026-12-01; invocation counts, CPU time and errors stay
+# complete in the Worker's metrics.
+[observability]
+enabled = true
+head_sampling_rate = 0.01
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.01
+
+# Workers Issues: groups production failures (exceptions, console.error) — needs Wrangler 4.134.0+
+[observability.issues]
+enabled = true
+
+[durable_objects]
+bindings = [
+  { name = "STREAM_HUB", class_name = "StreamHub" },
+  { name = "STREAM_PRESENCE", class_name = "StreamPresence" },
+  { name = "NOTE_WATCH", class_name = "NoteWatch" },
+]
+
+# misskey-cf-api `ApiInternal` WorkerEntrypoint (RPC; not reachable from the internet): the hub's
+# 5-minute lastActiveDate refresh (upstream StreamingApiServerService → UserService.updateLastActiveDate)
+# and `reversiGame` channel frames (ready / updateSettings / cancel / putStone / claimTimeIsUp), which
+# the api worker hands to its Reversi DO. A service binding, not a DO binding: the api Worker binds
+# this Worker's DO classes, so a DO binding back into it would make the deploy order circular.
+[[services]]
+binding = "API_INTERNAL"
+service = "misskey-cf-api"
+entrypoint = "ApiInternal"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["StreamHub"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["StreamPresence"]
+
+[[migrations]]
+tag = "v3"
+new_sqlite_classes = ["NoteWatch"]
+
+[vars]
+STREAM_SHARD_COUNT = "16"

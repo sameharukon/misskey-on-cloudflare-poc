@@ -1,0 +1,86 @@
+name = "misskey-cf-timeline"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# stack traces in Workers Logs / Issues point at the TypeScript sources
+upload_source_maps = true
+compatibility_flags = ["nodejs_compat"]
+# Not on the internet: the gateway Worker is the only public origin; this one is reached through
+# service bindings, Durable Objects and Queues (README.md: Architecture)
+workers_dev = false
+preview_urls = false
+
+# Run next to the PostgreSQL origin (AWS Tokyo): every request, waitUntil work and queue batch
+# makes dozens of serial queries, and a Worker run where a request enters (e.g. Frankfurt for
+# mastodon.social) paid a Tokyo round trip on each of them. Smart Placement did not move it.
+[placement]
+region = "aws:ap-northeast-1"
+
+# Subrequests per invocation (Workers Paid default 10,000, internal services included). Streaming
+# goes through one StreamPresence call per shard, so a fanout batch stays far below this; the
+# explicit value keeps a large batch from failing (and redelivering) if that ever changes.
+[limits]
+subrequests = 50000
+
+# Logs and traces keep 5% of invocations: queue batches and DO calls of every fanout.
+# Both are billed per event from 2026-12-01; invocation counts, CPU time and errors stay
+# complete in the Worker's metrics.
+[observability]
+enabled = true
+head_sampling_rate = 0.05
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.05
+
+# Workers Issues: groups production failures (exceptions, console.error) — needs Wrangler 4.134.0+
+[observability.issues]
+enabled = true
+
+[vars]
+FANOUT_PAGE_SIZE = "1000"
+FANOUT_CONCURRENCY = "16"
+STREAM_SHARD_COUNT = "16"
+INSTANCE_URL = "https://__MISSKEY_CF_DOMAIN__"
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "__MISSKEY_CF_HYPERDRIVE_ID__"
+
+[durable_objects]
+bindings = [
+  { name = "TIMELINE_SHARD", class_name = "TimelineShard" },
+  { name = "NOTIFICATION_BOX", class_name = "NotificationBox" },
+  { name = "OPS_STATS", class_name = "OpsStats" },
+  # Streaming pushes from fanout (misskey-cf-stream)
+  { name = "STREAM_HUB", class_name = "StreamHub", script_name = "misskey-cf-stream" },
+  { name = "STREAM_PRESENCE", class_name = "StreamPresence", script_name = "misskey-cf-stream" },
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["TimelineShard"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["NotificationBox"]
+
+[[migrations]]
+tag = "v3"
+new_sqlite_classes = ["OpsStats"]
+
+# Continuation pages for large follower sets
+[[queues.producers]]
+binding = "Q_TIMELINE_FANOUT"
+queue = "mk-timeline-fanout"
+
+# Day-one fanout consumer
+[[queues.consumers]]
+queue = "mk-timeline-fanout"
+max_batch_size = 16
+# each batch holds a Hyperdrive client (origin connections are shared with the API)
+max_concurrency = 10
+# streaming / antennas wait for the batch: start within 1 s instead of CF's default 5 s
+max_batch_timeout = 1
+max_retries = 5
+
+# mk-deliver / mk-inbox are consumed by misskey-cf-api (ActivityPub).
