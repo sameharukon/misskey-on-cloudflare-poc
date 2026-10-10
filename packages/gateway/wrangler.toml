@@ -1,0 +1,78 @@
+name = "misskey-cf-gateway"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# stack traces in Workers Logs / Issues point at the TypeScript sources
+upload_source_maps = true
+compatibility_flags = ["nodejs_compat"]
+# Public origin: the custom domain only. workers.dev / preview URLs stay off so there is no second
+# origin whose host disagrees with INSTANCE_URL (AP ids, OAuth / passkey origins, cookies).
+workers_dev = false
+preview_urls = false
+routes = [
+  { pattern = "__MISSKEY_CF_DOMAIN__", custom_domain = true },
+]
+
+# Logs and traces keep 10% of invocations: every page and API request passes through it.
+# Both are billed per event from 2026-12-01; invocation counts, CPU time and errors stay
+# complete in the Worker's metrics.
+[observability]
+enabled = true
+head_sampling_rate = 0.1
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.1
+
+# Workers Issues: groups production failures (exceptions, console.error) — needs Wrangler 4.134.0+
+[observability.issues]
+enabled = true
+
+[vars]
+# Public origin of the instance: the client, /api, /streaming and ActivityPub all go through this Worker
+INSTANCE_URL = "https://__MISSKEY_CF_DOMAIN__"
+# BOOTSTRAP_META_JSON = "{\"name\":\"dev\",\"uri\":\"http://127.0.0.1:8787\"}"
+
+# Static Assets: upstream web client built by `pnpm build-frontend` (scripts/build-frontend.sh)
+# into ./public (build output is not committed; an empty dir deploys fine).
+# Client files, emoji images and the fixed static files are served straight from the asset
+# store when present (cache headers from public/_headers, written by build-frontend.sh); a path
+# excluded below that has no file still reaches the Worker (emoji not uploaded → jsDelivr
+# redirect). Everything else (SPA shell with #misskey_meta, /api, /streaming, ActivityPub /
+# well-known, manifest.json, ...) runs the Worker first.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "none"
+run_worker_first = [
+  "/*",
+  "!/vite/*",
+  "!/embed_vite/*",
+  "!/assets/*",
+  "!/static-assets/*",
+  "!/client-assets/*",
+  "!/twemoji/*",
+  "!/fluent-emoji/*",
+  "!/tarball/*",
+  "!/sw.js",
+  "!/embed.js",
+  "!/favicon.ico",
+  "!/apple-touch-icon.png",
+]
+
+# --- Service bindings (W2): gateway /api/* → API Worker ---
+[[services]]
+binding = "API"
+service = "misskey-cf-api"
+
+# misskey-cf-api `ApiInternal` WorkerEntrypoint (RPC; not reachable from the internet): data for
+# the server-rendered /@user and /notes/:id pages (OGP + #misskey_clientCtx). Without it those
+# paths get the base HTML.
+[[services]]
+binding = "API_INTERNAL"
+service = "misskey-cf-api"
+entrypoint = "ApiInternal"
+
+# misskey-cf-media (sharp Container): /twemoji-badge/*.png notification badges
+[[services]]
+binding = "MEDIA"
+service = "misskey-cf-media"

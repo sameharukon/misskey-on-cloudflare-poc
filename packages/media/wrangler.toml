@@ -1,0 +1,40 @@
+name = "misskey-cf-media"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+# stack traces in Workers Logs / Issues point at the TypeScript sources
+upload_source_maps = true
+# Only reachable through the api worker's MEDIA service binding.
+workers_dev = false
+preview_urls = false
+
+# Logs and traces keep every invocation: there are few (conversions only).
+# Both are billed per event from 2026-12-01; invocation counts, CPU time and errors stay
+# complete in the Worker's metrics.
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
+
+# Workers Issues: groups production failures (exceptions, console.error) — needs Wrangler 4.134.0+
+[observability.issues]
+enabled = true
+
+[[containers]]
+class_name = "MediaContainer"
+# Built + pushed without Docker by packages/media-container/scripts/push-image.mjs
+image = "registry.cloudflare.com/__MISSKEY_CF_ACCOUNT_ID__/misskey-cf-media:v2"
+instance_type = "basic"
+# media-0..2 (proxy / badges, src/instance.ts PROXY_INSTANCES) + media-bulk (upload alternates)
+# + one for rollouts
+max_instances = 5
+
+[[durable_objects.bindings]]
+name = "MEDIA_CONTAINER"
+class_name = "MediaContainer"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["MediaContainer"]
