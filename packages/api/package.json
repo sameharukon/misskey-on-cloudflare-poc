@@ -28,7 +28,7 @@
     "mfm-js": "0.26.0",
     "pg": "^8.23.1",
     "qrcode-generator": "1.4.4",
-    "sanitize-html": "2.17.7"
+    "sanitize-html": "2.18.0"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",
